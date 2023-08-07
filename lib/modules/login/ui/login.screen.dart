@@ -22,7 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void initstate() {
+  @override
+  void initState() {
     super.initState();
     _nameController.text = widget.email ?? "";
   }
@@ -123,7 +124,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(3),
                   ),
                   child: InkWell(
-                    onTap: () async {},
+                    onTap: () {
+                      BlocProvider.of<LoginBloc>(context).add(
+                        LoginFireBaseEvent(
+                          email: _nameController.text,
+                          password: _passwordController.text,
+                        ),
+                      );
+                    },
                     child: const Center(
                       child: Text(
                         "Login",

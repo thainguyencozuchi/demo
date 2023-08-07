@@ -15,51 +15,52 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String name = "";
-  void getData() async {
-    User? userLogin = await AuthService().getCurrentUser();
+  @override
+  void initState() {
+    super.initState();
+    User? userLogin = AuthService().getCurrentUser();
     if (userLogin != null) {
       setState(() {
         name = userLogin.displayName ?? "";
+        print("object:${name}");
       });
     }
   }
 
-  void initstate() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-          // leading: ,
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            color: Colors.amber,
           ),
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.amber,
-        ),
-        child: Column(
-          children: [
-            Text("Helloo :$name"),
-            const SizedBox(
-              height: 30,
-            ),
-            TextButton(
-                onPressed: () {
-                  AuthService().signOut();
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => BlocProvider(
-                        create: (context) => LoginBloc(),
-                        child: LoginScreen(),
-                      ),
-                    ),
-                  );
-                },
-                child: const Text("Đăng xuất"))
-          ],
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  Text("Helloo :$name"),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        AuthService().signOut();
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => BlocProvider(
+                              create: (context) => LoginBloc(),
+                              child: LoginScreen(),
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text("Đăng xuất"))
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
