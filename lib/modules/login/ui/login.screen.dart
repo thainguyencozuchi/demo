@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../sign/bloc/sign_bloc.dart';
 import '../../sign/ui/sign.screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,7 +16,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  @override
   void initstate() {
     super.initState();
     // bloc.add();
@@ -65,7 +66,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push<void>(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const SignScreen(),
+                          builder: (BuildContext context) => BlocProvider(
+                            create: (context) => SignBloc(),
+                            child: SignScreen(),
+                          ),
                         ),
                       );
                     },
@@ -87,7 +91,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.circular(3),
               ),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                
+                },
                 child: const Center(
                   child: Text(
                     "Login",

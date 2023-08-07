@@ -1,20 +1,30 @@
 part of 'sign_bloc.dart';
 
-@immutable
-
-
 abstract class SignState extends Equatable {
-   const SignState();
+  const SignState();
 
   @override
-   List<Object> get props => [];
+  List<Object> get props => [];
 }
 
 class SignInitial extends SignState {}
 
-class SignLoadingState extends SignState {}
+class SignLoading extends SignState {}
 
-class SignFireBaseState extends SignState {
-  final UserLogin user;
-  const SignFireBaseState({required this.user});
+class SignSuccess extends SignState {
+  final String userId;
+
+  SignSuccess({required this.userId});
+
+  @override
+  List<Object> get props => [userId];
+}
+
+class SignFailure extends SignState {
+  final String error;
+
+  SignFailure({required this.error});
+
+  @override
+  List<Object> get props => [error];
 }

@@ -16,18 +16,18 @@ class AuthService {
     try {
       UserLogin userLogin =
           UserLogin(uid: '', email: '', displayName: '', photoURL: '');
-      // UserCredential userCredential =
-      //     await _auth.createUserWithEmailAndPassword(
-      //   email: email,
-      //   password: password,
-      // );
-      // User? user = _userFromFirebaseUser(userCredential);
-      // if (user != null) {
-      //   userLogin.uid = user.uid;
-      //   userLogin.email = user.email!;
-      //   userLogin.displayName =  "";
-      //   userLogin.photoURL = "";
-      // }
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      User? user = _userFromFirebaseUser(userCredential);
+      if (user != null) {
+        userLogin.uid = user.uid;
+        userLogin.email = user.email!;
+        userLogin.displayName =  "";
+        userLogin.photoURL = "";
+      }
       return userLogin;
     } catch (e) {
       print("Error during registration: $e");

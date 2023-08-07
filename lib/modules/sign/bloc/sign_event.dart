@@ -1,6 +1,5 @@
 part of 'sign_bloc.dart';
 
-@immutable
 abstract class SignEvent extends Equatable {
   const SignEvent();
 
@@ -11,5 +10,9 @@ abstract class SignEvent extends Equatable {
 class SignFireBaseEvent extends SignEvent {
   final String email;
   final String password;
-  const SignFireBaseEvent({required this.email,required this.password});
+
+  SignFireBaseEvent({required this.email, required this.password});
+
+  @override
+  List<Object> get props => [email, password];
 }
