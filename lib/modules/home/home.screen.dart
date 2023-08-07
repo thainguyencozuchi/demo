@@ -29,38 +29,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            color: Colors.amber,
-          ),
-          child: Row(
-            children: [
-              Column(
-                children: [
-                  Text("Helloo :$name"),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        AuthService().signOut();
-                        Navigator.push<void>(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) => BlocProvider(
-                              create: (context) => LoginBloc(),
-                              child: LoginScreen(),
-                            ),
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 255, 255, 255),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Helloo :$name"),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextButton(
+                    onPressed: () {
+                      AuthService().signOut();
+                      Navigator.push<void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => BlocProvider(
+                            create: (context) => LoginBloc(),
+                            child: LoginScreen(),
                           ),
-                        );
-                      },
-                      child: const Text("Đăng xuất"))
-                ],
-              ),
-            ],
-          ),
+                        ),
+                      );
+                    },
+                    child: const Text("Đăng xuất"))
+              ],
+            ),
+          ],
         ),
       ),
     );
