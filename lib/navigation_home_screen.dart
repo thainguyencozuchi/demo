@@ -61,16 +61,6 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
             screenView = ListChatScreen();
           });
           break;
-        case DrawerIndex.FeedBack:
-          setState(() {
-            screenView = Container();
-          });
-          break;
-        case DrawerIndex.Invite:
-          setState(() {
-            screenView = Container();
-          });
-          break;
         default:
           break;
       }

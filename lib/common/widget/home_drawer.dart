@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, library_private_types_in_public_api, constant_identifier_names, unnecessary_new
 
 import 'package:demo/controllers/firebase.auth.service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,10 +21,12 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
+  User? user;
   List<DrawerList>? drawerList;
   @override
   void initState() {
     setDrawerListArray();
+    user = AuthService().getCurrentUser();
     super.initState();
   }
 
@@ -40,9 +43,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
         icon: Icon(Icons.chat),
       ),
       DrawerList(
-        index: DrawerIndex.About,
-        labelName: 'About Us',
-        icon: Icon(Icons.info),
+        index: DrawerIndex.Profile,
+        labelName: 'Profile',
+        icon: Icon(Icons.person),
       ),
     ];
   }
@@ -84,7 +87,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             ),
                             child: ClipRRect(
                               borderRadius: const BorderRadius.all(Radius.circular(60.0)),
-                              child: Image.network('https://firebasestorage.googleapis.com/v0/b/fir-7dc77.appspot.com/o/images%2Fnoavater.jpeg?alt=media'),
+                              child: (user != null && user!.photoURL != null && user!.photoURL != "") ? Image.network(user!.photoURL ?? "") : Image.network('https://firebasestorage.googleapis.com/v0/b/fir-7dc77.appspot.com/o/images%2Fnoavater.jpeg?alt=media'),
                             ),
                           ),
                         ),
@@ -94,7 +97,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, left: 4),
                     child: Text(
-                      'Nguyễn Thái',
+                      (user != null && user!.displayName != null)?'${user!.displayName}':"${user!.email}",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: isLightMode ? AppTheme.grey : AppTheme.white,
@@ -186,9 +189,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     width: 6.0,
                     height: 46.0,
                     decoration: BoxDecoration(
-                      color: widget.screenIndex == listData.index
-                          ? Colors.blue
-                          : Colors.transparent,
+                      color: widget.screenIndex == listData.index ? Colors.blue : Colors.transparent,
                       borderRadius: new BorderRadius.only(
                         topLeft: Radius.circular(0),
                         topRight: Radius.circular(16),
@@ -261,8 +262,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
 enum DrawerIndex {
   HOME,
-  FeedBack,
   Message,
+  Profile,
   Share,
   About,
   Invite,
