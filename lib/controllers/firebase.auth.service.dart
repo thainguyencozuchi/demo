@@ -69,7 +69,7 @@ class AuthService {
     return _auth.authStateChanges();
   }
 
-    // Cập nhật thông tin người dùng (ví dụ: email)
+  // Cập nhật thông tin người dùng (ví dụ: email)
   Future<bool> updateUserEmail(String newEmail) async {
     try {
       if (_auth.currentUser != null) {

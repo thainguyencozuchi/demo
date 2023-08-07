@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 part of 'sign_bloc.dart';
 
 abstract class SignState extends Equatable {
@@ -12,12 +14,12 @@ class SignInitial extends SignState {}
 class SignLoading extends SignState {}
 
 class SignSuccess extends SignState {
-  final String userId;
+  final String email;
 
-  SignSuccess({required this.userId});
+  SignSuccess({required this.email});
 
   @override
-  List<Object> get props => [userId];
+  List<Object> get props => [email];
 }
 
 class SignFailure extends SignState {

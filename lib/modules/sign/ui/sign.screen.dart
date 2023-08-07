@@ -1,6 +1,9 @@
+import 'package:demo/common/theme/color.dart';
+import 'package:demo/modules/login/ui/login.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../common/widget/loading.dart';
+import '../../../common/widget/toast.dart';
+import '../../login/bloc/login_bloc.dart';
 import '../bloc/sign_bloc.dart';
 
 class SignScreen extends StatefulWidget {
@@ -11,14 +14,12 @@ class SignScreen extends StatefulWidget {
 }
 
 class _SignScreenState extends State<SignScreen> {
-  final bloc = SignBloc();
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   void initstate() {
     super.initState();
-    // bloc.add();
   }
 
   @override
@@ -31,17 +32,32 @@ class _SignScreenState extends State<SignScreen> {
       body: BlocConsumer<SignBloc, SignState>(
         listener: (context, state) {
           if (state is SignLoading) {
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) {
-                return LoadingWidget(); // Sử dụng LoadingWidget từ tệp loading_widget.dart
-              },
-            );
+            onLoading(context);
             return;
           } else if (state is SignSuccess) {
+            showToast(
+                context: context,
+                msg: "Đăng ký thành công",
+                color: colorSuccesc,
+                icon: const Icon(Icons.done));
+            Navigator.push<void>(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => BlocProvider(
+                  create: (context) => LoginBloc(),
+                  child: LoginScreen(
+                    email: state.email,
+                  ),
+                ),
+              ),
+            );
+          } else if (state is SignFailure) {
             Navigator.pop(context);
-            print("object:${state.userId}");
+            showToast(
+                context: context,
+                msg: state.error,
+                color: colorErorr,
+                icon: const Icon(Icons.warning));
           }
         },
         builder: (context, state) {
@@ -103,6 +119,7 @@ class _SignScreenState extends State<SignScreen> {
                     onTap: () async {
                       BlocProvider.of<SignBloc>(context).add(
                         SignFireBaseEvent(
+                          displayName: _fullNameController.text,
                           email: _nameController.text,
                           password: _passwordController.text,
                         ),

@@ -8,10 +8,12 @@ abstract class SignEvent extends Equatable {
 }
 
 class SignFireBaseEvent extends SignEvent {
+  final String displayName;
   final String email;
   final String password;
 
-  SignFireBaseEvent({required this.email, required this.password});
+  const SignFireBaseEvent(
+      {required this.displayName, required this.email, required this.password});
 
   @override
   List<Object> get props => [email, password];

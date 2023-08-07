@@ -1,11 +1,17 @@
+// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/theme/color.dart';
+import '../../../common/widget/toast.dart';
+import '../../home/home.screen.dart';
 import '../../sign/bloc/sign_bloc.dart';
 import '../../sign/ui/sign.screen.dart';
+import '../bloc/login_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  String? email;
+  LoginScreen({Key? key, this.email}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -18,92 +24,118 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void initstate() {
     super.initState();
-    // bloc.add();
+    _nameController.text = widget.email ?? "";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Card(
-              elevation: 3,
-              child: TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'User name',
+      resizeToAvoidBottomInset: false,
+      body: BlocConsumer<LoginBloc, LoginState>(
+        listener: (context, state) {
+          if (state is LoginLoading) {
+            onLoading(context);
+            return;
+          } else if (state is LoginSuccess) {
+            Navigator.push<void>(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => BlocProvider(
+                  create: (context) => LoginBloc(),
+                  child: HomeScreen(),
                 ),
-                keyboardType: TextInputType.text,
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Card(
-              elevation: 3,
-              child: TextFormField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
+            );
+          } else if (state is LoginFailure) {
+            Navigator.pop(context);
+            showToast(
+                context: context,
+                msg: state.error,
+                color: colorErorr,
+                icon: const Icon(Icons.warning));
+          }
+        },
+        builder: (context, state) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Card(
+                  elevation: 3,
+                  child: TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'User name',
+                    ),
+                    keyboardType: TextInputType.text,
                   ),
-                  keyboardType: TextInputType.text,
-                  textCapitalization: TextCapitalization.characters),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.push<void>(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => BlocProvider(
-                            create: (context) => SignBloc(),
-                            child: SignScreen(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      "Do not have an account?",
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Card(
+                  elevation: 3,
+                  child: TextFormField(
+                      controller: _passwordController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
                       ),
-                    ))
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Container(
-              height: 60,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(3),
-              ),
-              child: InkWell(
-                onTap: () {
-                
-                },
-                child: const Center(
-                  child: Text(
-                    "Login",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                      keyboardType: TextInputType.text,
+                      textCapitalization: TextCapitalization.characters),
                 ),
               ),
-            ),
-          )
-        ],
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push<void>(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => BlocProvider(
+                                create: (context) => SignBloc(),
+                                child: SignScreen(),
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Do not have an account?",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                          ),
+                        ))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  child: InkWell(
+                    onTap: () async {},
+                    child: const Center(
+                      child: Text(
+                        "Login",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          );
+        },
       ),
     );
   }
