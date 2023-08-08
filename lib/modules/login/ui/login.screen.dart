@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../common/theme/color.dart';
 import '../../../common/widget/toast.dart';
-import '../../home/home.screen.dart';
+import '../../../navigation_home_screen.dart';
 import '../../sign/bloc/sign_bloc.dart';
 import '../../sign/ui/sign.screen.dart';
 import '../bloc/login_bloc.dart';
@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
               MaterialPageRoute<void>(
                 builder: (BuildContext context) => BlocProvider(
                   create: (context) => LoginBloc(),
-                  child: HomeScreen(),
+                  child: NavigationHomeScreen(),
                 ),
               ),
             );

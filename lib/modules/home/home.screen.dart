@@ -1,73 +1,38 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../controllers/firebase.auth.service.dart';
-import '../login/bloc/login_bloc.dart';
-import '../login/ui/login.screen.dart';
-
+//home screen -- where all available contacts are shown
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String name = "";
   @override
   void initState() {
     super.initState();
-    User? userLogin = AuthService().getCurrentUser();
-    if (userLogin != null) {
-      setState(() {
-        name = userLogin.displayName ?? "";
-        print("object:${name}");
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 255, 255, 255),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Helloo :$name"),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextButton(
-                    onPressed: () {
-                      AuthService().signOut();
-                      Navigator.push<void>(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => BlocProvider(
-                            create: (context) => LoginBloc(),
-                            child: LoginScreen(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: const Text("Đăng xuất"))
-              ],
-            ),
-          ],
-        ),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 100,
+                height: 100,
+                color: Colors.pink,
+              )
+            ],
+          ),
+        ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }
