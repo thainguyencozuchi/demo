@@ -1,12 +1,17 @@
-class UserLogin {
-  String uid;
-  String email;
-  String displayName;
-  String photoURL;
+import 'package:firebase_auth/firebase_auth.dart';
 
-  UserLogin(
-      {required this.uid,
-      required this.email,
-      required this.displayName,
-      required this.photoURL});
+class UserLogin {
+  String? uid;
+  String? email;
+  String? displayName;
+  String? photoURL;
+
+  UserLogin({this.uid, this.email, this.displayName, this.photoURL});
+
+  UserLogin.convertUserAuth(User user) {
+    uid = user.uid;
+    email = user.email ?? "";
+    displayName = user.displayName ?? "";
+    photoURL = user.photoURL ?? "";
+  }
 }

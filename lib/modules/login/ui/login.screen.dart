@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../common/theme/color.dart';
 import '../../../common/widget/toast.dart';
-import '../../home/home.screen.dart';
+import '../../profile/bloc/profile_bloc.dart';
+import '../../profile/ui/profile.screen.dart';
 import '../../sign/bloc/sign_bloc.dart';
 import '../../sign/ui/sign.screen.dart';
 import '../bloc/login_bloc.dart';
@@ -36,13 +37,25 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LoginLoading) {
             onLoading(context);
             return;
+          } else if (state is AutoLoginSuccess) {
+            Navigator.push<void>(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => BlocProvider(
+                  create: (context) => ProfileBloc()..add(GetProfieEvent()),
+                  child: ProfileScreen(),
+                ),
+              ),
+            );
+          } else if (state is AutoLoginFail) {
+            Navigator.pop(context);
           } else if (state is LoginSuccess) {
             Navigator.push<void>(
               context,
               MaterialPageRoute<void>(
                 builder: (BuildContext context) => BlocProvider(
-                  create: (context) => LoginBloc(),
-                  child: HomeScreen(),
+                  create: (context) => ProfileBloc()..add(GetProfieEvent()),
+                  child: ProfileScreen(),
                 ),
               ),
             );

@@ -1,8 +1,9 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, prefer_const_constructors
 
 import 'dart:async';
 import 'dart:math';
 import 'package:bloc/bloc.dart';
+import 'package:demo/modules/profile/bloc/profile_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -24,7 +25,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   loginUser(Emitter<LoginState> emit, LoginEvent event) async {
     emit(LoginLoading());
     try {
-      if (event is LoginFireBaseEvent) {
+      if (event is AutoLoginEvent) {
+        var checkLogin = await AuthService().autoSignIn();
+        if (checkLogin == true) {
+          emit(AutoLoginSuccess());
+        } else {
+          emit(AutoLoginFail());
+        }
+      } else if (event is LoginFireBaseEvent) {
         if (event.email == "" || event.password == "") {
           emit(LoginFailure(error: "Không được để trống"));
         } else {
@@ -38,7 +46,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         }
       }
     } catch (e) {
-      emit(LoginFailure(error: "Có lỗi xảy ra"));
+      if (event is AutoLoginEvent) {
+        emit(AutoLoginFail());
+      } else {
+        emit(LoginFailure(error: "Có lỗi xảy ra"));
+      }
     }
   }
 }

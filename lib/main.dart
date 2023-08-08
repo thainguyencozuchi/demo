@@ -26,9 +26,15 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: BlocProvider(
-        create: (context) => LoginBloc(),
+        create: (context) => LoginBloc()
+        ..add(AutoLoginEvent())
+        ,
         child: LoginScreen(),
       ),
     );
   }
+}
+
+String getUrlImage(String fileName) {
+  return "https://firebasestorage.googleapis.com/v0/b/image-c0e6f.appspot.com/o/uploads%2F$fileName?alt=media";
 }

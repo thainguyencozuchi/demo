@@ -35,7 +35,7 @@ class SignBloc extends Bloc<SignEvent, SignState> {
               .registerWithEmailAndPassword(event.email, event.password);
           if (user != null) {
             await AuthService().updateUserName(event.displayName);
-            emit(SignSuccess(email: user.email));
+            emit(SignSuccess(email:event.email));
           } else {
             emit(SignFailure(error: "Erorr"));
           }
