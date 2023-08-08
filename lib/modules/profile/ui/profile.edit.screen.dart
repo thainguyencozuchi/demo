@@ -81,12 +81,12 @@ class _State extends State<ProfileEditScreen> {
                 child: (selectFile != null)
                     ? Image.file(
                         selectFile!,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                       )
                     : (userLogin.photoURL != "")
                         ? Image.network(
                             userLogin.photoURL!,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                           )
                         : const Text(""),
               ),

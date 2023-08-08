@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, deprecated_member_use
 import 'package:demo/controllers/firebase.auth.service.dart';
 import 'package:demo/models/user.login.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ import '../../login/ui/login.screen.dart';
 import '../bloc/profile_bloc.dart';
 import 'profile.change.password.dart';
 import 'profile.edit.screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -25,6 +26,14 @@ class _State extends State<ProfileScreen> {
     photoURL: '',
     displayName: '',
   );
+
+  void callPhoneNumber(String phoneNumber) async {
+    if (await canLaunch('tel:$phoneNumber')) {
+      await launch('tel:$phoneNumber');
+    } else {
+      throw 'Không thể mở ứng dụng gọi điện thoại.';
+    }
+  }
 
   @override
   void initState() {
@@ -70,7 +79,7 @@ class _State extends State<ProfileScreen> {
                     margin: const EdgeInsets.only(bottom: 20),
                     decoration: const BoxDecoration(color: colorSuccesc),
                     child: (userLogin.photoURL != "")
-                        ? Image.network(userLogin.photoURL!)
+                        ? Image.network(userLogin.photoURL!,fit: BoxFit.fill,)
                         : const Text(""),
                   ),
                   Text("Tên: ${userLogin.displayName}"),
@@ -123,6 +132,19 @@ class _State extends State<ProfileScreen> {
                             );
                           },
                           child: const Text("Đăng xuất")),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          String phoneNumber =
+                              '0987654321'; // Số điện thoại cần gọi
+                          callPhoneNumber(phoneNumber);
+                        },
+                        child: Text("Gọi điện"),
+                      )
                     ],
                   )
                 ],
