@@ -21,7 +21,7 @@ class ChatUser {
   late String pushToken;
 
   ChatUser.fromJson(Map<String, dynamic> json) {
-    image = json['image'] ?? '';
+    image = (json['image'] != "null") ? json['image'] ?? "" : '';
     about = json['about'] ?? '';
     name = json['name'] ?? '';
     createdAt = json['created_at'] ?? '';

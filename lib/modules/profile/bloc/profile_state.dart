@@ -11,20 +11,24 @@ class ProfileInitial extends ProfileState {}
 
 class ProfileLoading extends ProfileState {}
 
-class ProfileSuccess extends ProfileState {
-  final String displayName;
+class GetProfieSuccess extends ProfileState {
+  final ChatUser chatUser;
 
-  const ProfileSuccess({required this.displayName});
+  const GetProfieSuccess({required this.chatUser});
 
   @override
-  List<Object> get props => [displayName];
+  List<Object> get props => [chatUser];
 }
 
-class ProfileFailure extends ProfileState {
+class GetProfieFailure extends ProfileState {
   final String error;
 
-  const ProfileFailure({required this.error});
+  const GetProfieFailure({required this.error});
 
   @override
   List<Object> get props => [error];
 }
+
+class UpdateProfieSuccess extends ProfileState {}
+
+class ChangePasswordSuccess extends ProfileState {}

@@ -3,15 +3,17 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:bloc/bloc.dart';
+import 'package:demo/main.dart';
+import 'package:demo/models/chat_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 // import 'package:meta/meta.dart';
 
+import '../../../controllers/api.dart';
 import '../../../controllers/firebase.auth.service.dart';
-import '../../../models/user.login.dart';
-part 'profile_state.dart';
 part 'profile_event.dart';
+part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileInitial()) {
@@ -24,21 +26,49 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   profileUser(Emitter<ProfileState> emit, ProfileEvent event) async {
     emit(ProfileLoading());
     try {
-      if (event is ProfileFireBaseEvent) {
-        if (event.email == "" || event.password == "") {
-          emit(ProfileFailure(error: "Không được để trống"));
+      if (event is GetProfieEvent) {
+        ChatUser? user = await AuthService().getCurrentUser();
+        if (user != null) {
+          emit(GetProfieSuccess(chatUser: user));
         } else {
-          User? user = await AuthService()
-              .signInWithEmailAndPassword(event.email, event.password);
-          if (user != null) {
-            emit(ProfileSuccess(displayName: user.displayName ?? "User"));
+          emit(const GetProfieFailure(error: "User not found"));
+        }
+      } else if (event is UpdateProfieEvent) {
+        if (event.displayName != "") {
+          var updateName = await AuthService()
+              .updateUserName(event.displayName, event.chatUser);
+          var updateUrl = true;
+          if (event.fileName != "") {
+            updateUrl = await AuthService()
+                .updatePhotoUrl(getUrlImage(event.fileName), event.chatUser);
+          }
+          if (updateUrl == true && updateName == true) {
+            emit(UpdateProfieSuccess());
           } else {
-            emit(ProfileFailure(error: "Tài khoản mật khảu không đúng"));
+            emit(const GetProfieFailure(error: "Erorr"));
+          }
+        } else {
+          emit(const GetProfieFailure(error: "Ko được để trống"));
+        }
+      } else if (event is ChangePassEvent) {
+        if (event.password == "" || event.rePassword == "") {
+          emit(const GetProfieFailure(error: "Ko được để trống"));
+        } else if (event.password.length < 6 || event.rePassword.length < 6) {
+          emit(const GetProfieFailure(error: "Mật khẩu lớn hơn 6 ký tự"));
+        } else if (event.password != event.rePassword) {
+          emit(const GetProfieFailure(error: "Nhập lại không khớp"));
+        } else {
+          var updatePass =
+              await AuthService().updateUserPassword(event.password);
+          if (updatePass == true) {
+            emit(ChangePasswordSuccess());
+          } else {
+            emit(const GetProfieFailure(error: "Đăng nhập lại để thực hiện"));
           }
         }
       }
     } catch (e) {
-      emit(ProfileFailure(error: "Có lỗi xảy ra"));
+      emit(GetProfieFailure(error: e.toString()));
     }
   }
 }

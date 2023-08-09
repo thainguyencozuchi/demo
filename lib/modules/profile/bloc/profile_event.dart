@@ -7,13 +7,24 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ProfileFireBaseEvent extends ProfileEvent {
-  final String email;
-  final String password;
+class GetProfieEvent extends ProfileEvent {}
 
-  const ProfileFireBaseEvent(
-      {required this.email, required this.password});
+class UpdateProfieEvent extends ProfileEvent {
+  final String fileName;
+  final String displayName;
+  final ChatUser chatUser;
 
+  const UpdateProfieEvent({required this.fileName, required this.displayName, required this.chatUser});
   @override
-  List<Object> get props => [email, password];
+  List<Object> get props => [fileName, displayName];
+}
+
+class ChangePassEvent extends ProfileEvent {
+  final String password;
+  final String rePassword;
+  final ChatUser chatUser;
+
+  const ChangePassEvent({required this.password, required this.rePassword, required this.chatUser});
+  @override
+  List<Object> get props => [password, rePassword];
 }

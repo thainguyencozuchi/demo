@@ -8,7 +8,6 @@ import 'package:equatable/equatable.dart';
 // import 'package:meta/meta.dart';
 
 import '../../../controllers/firebase.auth.service.dart';
-import '../../../models/user.login.dart';
 part 'sign_state.dart';
 part 'sign_event.dart';
 
@@ -31,11 +30,11 @@ class SignBloc extends Bloc<SignEvent, SignState> {
         } else if (event.password.length < 6) {
           emit(SignFailure(error: "Mật khẩu ít nhất 6 ký tự"));
         } else {
-          UserLogin? user = await AuthService()
-              .registerWithEmailAndPassword(event.email, event.password);
-          if (user != null) {
-            await AuthService().updateUserName(event.displayName);
-            emit(SignSuccess(email: user.email));
+          var chatUserSign = await AuthService().registerWithEmailAndPassword(
+              event.email, event.password, event.displayName);
+          if (chatUserSign != null) {
+            await AuthService().updateUserName(event.displayName, chatUserSign);
+            emit(SignSuccess(email: event.email));
           } else {
             emit(SignFailure(error: "Erorr"));
           }

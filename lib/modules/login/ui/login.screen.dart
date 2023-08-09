@@ -41,10 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.push<void>(
               context,
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => BlocProvider(
-                  create: (context) => LoginBloc(),
-                  child: NavigationHomeScreen(),
-                ),
+                builder: (BuildContext context) => NavigationHomeScreen(),
               ),
             );
           } else if (state is LoginFailure) {

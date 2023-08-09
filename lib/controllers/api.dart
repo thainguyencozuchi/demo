@@ -26,7 +26,7 @@ class APIs {
       id: user.uid,
       name: user.displayName.toString(),
       email: user.email.toString(),
-      about: "Hey, I'm using We Chat!",
+      about: "Hey, QH12",
       image: user.photoURL.toString(),
       createdAt: '',
       isOnline: false,
@@ -51,14 +51,14 @@ class APIs {
     });
 
     // for handling foreground messages
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   log('Got a message whilst in the foreground!');
-    //   log('Message data: ${message.data}');
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      log('Got a message whilst in the foreground!');
+      log('Message data: ${message.data}');
 
-    //   if (message.notification != null) {
-    //     log('Message also contained a notification: ${message.notification}');
-    //   }
-    // });
+      if (message.notification != null) {
+        log('Message also contained a notification: ${message.notification}');
+      }
+    });
   }
 
   // for sending push notification
@@ -131,7 +131,6 @@ class APIs {
       if (user.exists) {
         me = ChatUser.fromJson(user.data()!);
         await getFirebaseMessagingToken();
-
         //for setting user status to active
         APIs.updateActiveStatus(true);
         log('My Data: ${user.data()}');
@@ -144,12 +143,11 @@ class APIs {
   // for creating a new user
   static Future<void> createUser() async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
-
     final chatUser = ChatUser(
         id: user.uid,
         name: user.displayName.toString(),
         email: user.email.toString(),
-        about: "Hey, I'm using We Chat!",
+        about: "Hey, QH12",
         image: user.photoURL.toString(),
         createdAt: time,
         isOnline: false,

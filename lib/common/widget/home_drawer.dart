@@ -1,16 +1,20 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, library_private_types_in_public_api, constant_identifier_names, unnecessary_new
 
 import 'package:demo/controllers/firebase.auth.service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:demo/models/chat_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../modules/login/bloc/login_bloc.dart';
 import '../../modules/login/ui/login.screen.dart';
 import '../theme/app_theme.dart';
 
 class HomeDrawer extends StatefulWidget {
-  const HomeDrawer({Key? key, this.screenIndex, this.iconAnimationController, this.callBackIndex}) : super(key: key);
+  const HomeDrawer(
+      {Key? key,
+      this.screenIndex,
+      this.iconAnimationController,
+      this.callBackIndex})
+      : super(key: key);
 
   final AnimationController? iconAnimationController;
   final DrawerIndex? screenIndex;
@@ -21,12 +25,23 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
-  User? user;
+  ChatUser? user;
   List<DrawerList>? drawerList;
+  void getUser() async {
+    ChatUser? result = await AuthService().getCurrentUser();
+    print("Name: ${result.toString()}");
+    setState(() {
+      if (result != null) {
+        user = result;
+       
+      }
+    });
+  }
+
   @override
   void initState() {
     setDrawerListArray();
-    user = AuthService().getCurrentUser();
+    getUser();
     super.initState();
   }
 
@@ -73,21 +88,37 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     animation: widget.iconAnimationController!,
                     builder: (BuildContext context, Widget? child) {
                       return ScaleTransition(
-                        scale: AlwaysStoppedAnimation<double>(1.0 - (widget.iconAnimationController!.value) * 0.2),
+                        scale: AlwaysStoppedAnimation<double>(1.0 -
+                            (widget.iconAnimationController!.value) * 0.2),
                         child: RotationTransition(
-                          turns: AlwaysStoppedAnimation<double>(Tween<double>(begin: 0.0, end: 24.0).animate(CurvedAnimation(parent: widget.iconAnimationController!, curve: Curves.fastOutSlowIn)).value / 360),
+                          turns: AlwaysStoppedAnimation<double>(Tween<double>(
+                                      begin: 0.0, end: 24.0)
+                                  .animate(CurvedAnimation(
+                                      parent: widget.iconAnimationController!,
+                                      curve: Curves.fastOutSlowIn))
+                                  .value /
+                              360),
                           child: Container(
                             height: 120,
                             width: 120,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               boxShadow: <BoxShadow>[
-                                BoxShadow(color: AppTheme.grey.withOpacity(0.6), offset: const Offset(2.0, 4.0), blurRadius: 8),
+                                BoxShadow(
+                                    color: AppTheme.grey.withOpacity(0.6),
+                                    offset: const Offset(2.0, 4.0),
+                                    blurRadius: 8),
                               ],
                             ),
                             child: ClipRRect(
-                              borderRadius: const BorderRadius.all(Radius.circular(60.0)),
-                              child: (user != null && user!.photoURL != null && user!.photoURL != "") ? Image.network(user!.photoURL ?? "") : Image.network('https://firebasestorage.googleapis.com/v0/b/fir-7dc77.appspot.com/o/images%2Fnoavater.jpeg?alt=media'),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(60.0)),
+                              child: (user != null &&
+                                      user!.image != "null"&&
+                                      user!.image != "" )
+                                  ? Image.network(user!.image)
+                                  : Image.network(
+                                      'https://firebasestorage.googleapis.com/v0/b/fir-7dc77.appspot.com/o/images%2Fnoavater.jpeg?alt=media'),
                             ),
                           ),
                         ),
@@ -97,7 +128,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, left: 4),
                     child: Text(
-                      (user != null && user!.displayName != null)?'${user!.displayName}':"${user!.email}",
+                      (user != null && user!.name != "")
+                          ? user!.name
+                          : user!.email,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: isLightMode ? AppTheme.grey : AppTheme.white,
@@ -189,7 +222,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     width: 6.0,
                     height: 46.0,
                     decoration: BoxDecoration(
-                      color: widget.screenIndex == listData.index ? Colors.blue : Colors.transparent,
+                      color: widget.screenIndex == listData.index
+                          ? Colors.blue
+                          : Colors.transparent,
                       borderRadius: new BorderRadius.only(
                         topLeft: Radius.circular(0),
                         topRight: Radius.circular(16),
@@ -205,9 +240,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       ? SizedBox(
                           width: 24,
                           height: 24,
-                          child: Image.asset(listData.imageName, color: widget.screenIndex == listData.index ? Colors.blue : AppTheme.nearlyBlack),
+                          child: Image.asset(listData.imageName,
+                              color: widget.screenIndex == listData.index
+                                  ? Colors.blue
+                                  : AppTheme.nearlyBlack),
                         )
-                      : Icon(listData.icon?.icon, color: widget.screenIndex == listData.index ? Colors.blue : AppTheme.nearlyBlack),
+                      : Icon(listData.icon?.icon,
+                          color: widget.screenIndex == listData.index
+                              ? Colors.blue
+                              : AppTheme.nearlyBlack),
                   const Padding(
                     padding: EdgeInsets.all(4.0),
                   ),
@@ -216,7 +257,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
-                      color: widget.screenIndex == listData.index ? Colors.black : AppTheme.nearlyBlack,
+                      color: widget.screenIndex == listData.index
+                          ? Colors.black
+                          : AppTheme.nearlyBlack,
                     ),
                     textAlign: TextAlign.left,
                   ),
@@ -228,11 +271,18 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     animation: widget.iconAnimationController!,
                     builder: (BuildContext context, Widget? child) {
                       return Transform(
-                        transform: Matrix4.translationValues((MediaQuery.of(context).size.width * 0.75 - 64) * (1.0 - widget.iconAnimationController!.value - 1.0), 0.0, 0.0),
+                        transform: Matrix4.translationValues(
+                            (MediaQuery.of(context).size.width * 0.75 - 64) *
+                                (1.0 -
+                                    widget.iconAnimationController!.value -
+                                    1.0),
+                            0.0,
+                            0.0),
                         child: Padding(
                           padding: EdgeInsets.only(top: 8, bottom: 8),
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.75 - 64,
+                            width:
+                                MediaQuery.of(context).size.width * 0.75 - 64,
                             height: 46,
                             decoration: BoxDecoration(
                               color: Colors.blue.withOpacity(0.2),

@@ -9,7 +9,6 @@ import 'package:equatable/equatable.dart';
 // import 'package:meta/meta.dart';
 
 import '../../../controllers/firebase.auth.service.dart';
-import '../../../models/user.login.dart';
 part 'login_state.dart';
 part 'login_event.dart';
 
