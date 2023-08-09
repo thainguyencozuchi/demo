@@ -10,6 +10,8 @@ class PostsService {
 
   Future<List<Posts>> getListPost() async {
     List<Posts> data = [];
+    var result = await firestore.collection('posts').add(data);
+    if(result.)
 
     return data;
   }
@@ -20,14 +22,13 @@ class PostsService {
       required String title,
       required String image}) async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
-    final chatUser = Posts(
-      id: id,
-      createdAt: time,
-      image: image,
-      listLike: [],
-      title: title,
-      uid: uid,
-    );
-    return await firestore.collection('posts').doc(id).set(chatUser.toJson());
+    final putPost = Posts(
+        id: id,
+        createdAt: time,
+        image: image,
+        listLike: [],
+        title: title,
+        uid: uid);
+    return await firestore.collection('posts').add(putPost);
   }
 }
