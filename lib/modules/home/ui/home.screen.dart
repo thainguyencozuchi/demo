@@ -39,11 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
             print(listPosts.map((e) => e.toJson()));
           } else if (state is ErorrStatus) {
             Navigator.pop(context);
-            showToast(
-                context: context,
-                msg: state.error,
-                color: colorErorr,
-                icon: const Icon(Icons.warning));
+            showToast(context: context, msg: state.error, color: colorErorr, icon: const Icon(Icons.warning));
           }
         },
         builder: (context, state) {
@@ -55,8 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     margin: EdgeInsets.all(10),
                     width: 100,
                     height: 50,
-                    decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 110, 110, 110)),
+                    decoration: const BoxDecoration(color: Color.fromARGB(255, 110, 110, 110)),
                     child: Text("${element}"),
                   )
               ],

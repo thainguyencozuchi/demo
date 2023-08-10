@@ -8,27 +8,27 @@ class PostsService {
   // for accessing firebase storage
   static FirebaseStorage storage = FirebaseStorage.instance;
 
-  Future<List<Posts>> getListPost() async {
-    List<Posts> data = [];
-    var result = await firestore.collection('posts').add(data);
-    if(result.)
+  // Future<List<Posts>> getListPost() async {
+  //   List<Posts> data = [];
+  //   var result = await firestore.collection('posts').add(data);
+  //   if(result.)
 
-    return data;
-  }
+  //   return data;
+  // }
 
-  static Future<void> addPosts(
-      {required String id,
-      required String uid,
-      required String title,
-      required String image}) async {
-    final time = DateTime.now().millisecondsSinceEpoch.toString();
-    final putPost = Posts(
-        id: id,
-        createdAt: time,
-        image: image,
-        listLike: [],
-        title: title,
-        uid: uid);
-    return await firestore.collection('posts').add(putPost);
-  }
+  // static Future<void> addPosts(
+  //     {required String id,
+  //     required String uid,
+  //     required String title,
+  //     required String image}) async {
+  //   final time = DateTime.now().millisecondsSinceEpoch.toString();
+  //   final putPost = Posts(
+  //       id: id,
+  //       createdAt: time,
+  //       image: image,
+  //       listLike: [],
+  //       title: title,
+  //       uid: uid);
+  //   return await firestore.collection('posts').add(putPost);
+  // }
 }

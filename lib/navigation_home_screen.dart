@@ -26,7 +26,10 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   @override
   void initState() {
     drawerIndex = widget.drawerIndex ?? DrawerIndex.HOME;
-    screenView = widget.screenView ?? HomeScreen();
+    screenView = widget.screenView ?? BlocProvider(
+              create: (context) => HomeBloc()..add(GetPostsEvent()),
+              child: HomeScreen(),
+            );
     super.initState();
   }
 
