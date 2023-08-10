@@ -238,7 +238,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.only(right: 5.0),
                     child: Icon(
                       Icons.favorite,
-                      size: 35,
+                      size: 30,
+                      color:(post.listLike.contains(chatUser!.id))
+                      ? Colors.red: Colors.amber
+                      ,
                     ),
                   ),
                   Text(
@@ -258,10 +261,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 5.0),
-                    child: (chatUser!.uid.toString() == post.uid)
+                    child: (chatUser!.id == post.userUp!.id)
                         ? Icon(
                             Icons.delete,
-                            size: 35,
+                            size: 30,
+                            color: Colors.red,
                           )
                         : Text(""),
                   ),
