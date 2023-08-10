@@ -35,6 +35,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             emit(LoginFailure(error: "Tài khoản mật khảu không đúng"));
           }
         }
+      } else if (event is AutoLogin) {
+        var resultAutoLogin = await AuthService().autoSignIn();
+        if (resultAutoLogin == true) {
+          emit(AutoLoginSuccess());
+        }else{
+          emit(AutoLoginFail());
+        }
       }
     } catch (e) {
       emit(LoginFailure(error: "Có lỗi xảy ra"));

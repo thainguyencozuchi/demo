@@ -17,3 +17,5 @@ class LoginFireBaseEvent extends LoginEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+class AutoLogin extends LoginEvent{}

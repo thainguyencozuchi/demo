@@ -18,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _bloc = LoginBloc();
   int volume = 0;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -25,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    _bloc.add(AutoLogin());
     _nameController.text = widget.email ?? "";
   }
 
@@ -33,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BlocConsumer<LoginBloc, LoginState>(
+        bloc: _bloc,
         listener: (context, state) {
           if (state is LoginLoading) {
             onLoading(context);
@@ -44,6 +47,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 builder: (BuildContext context) => NavigationHomeScreen(),
               ),
             );
+          } else if (state is AutoLoginSuccess) {
+            Navigator.push<void>(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => NavigationHomeScreen(),
+              ),
+            );
+          } else if (state is AutoLoginFail) {
+            Navigator.pop(context);
           } else if (state is LoginFailure) {
             Navigator.pop(context);
             showToast(
@@ -122,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: InkWell(
                     onTap: () {
-                      BlocProvider.of<LoginBloc>(context).add(
+                      _bloc.add(
                         LoginFireBaseEvent(
                           email: _nameController.text,
                           password: _passwordController.text,
@@ -147,6 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+    _bloc.close();
     super.dispose();
   }
 }

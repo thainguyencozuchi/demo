@@ -23,6 +23,7 @@ class ProfileEditScreen extends StatefulWidget {
 
 class _State extends State<ProfileEditScreen> {
   File? selectFile;
+  String urlImage = "";
   ChatUser chatUser = ChatUser(
       id: '',
       name: '',
@@ -34,7 +35,7 @@ class _State extends State<ProfileEditScreen> {
       pushToken: '',
       lastActive: '');
 
-  String urlImage = "";
+
   final TextEditingController _nameController = TextEditingController();
   final _bloc = ProfileBloc();
 

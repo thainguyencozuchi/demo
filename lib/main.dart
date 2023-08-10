@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'firebase_options.dart';
-import 'modules/login/bloc/login_bloc.dart';
 import 'modules/login/ui/login.screen.dart';
 late Size mq;
 void main() async {
@@ -26,10 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: BlocProvider(
-        create: (context) => LoginBloc(),
-        child: LoginScreen(),
-      ),
+      home: LoginScreen(),
     );
   }
 }

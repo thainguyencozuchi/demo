@@ -1,3 +1,5 @@
+import 'package:demo/models/chat_user.dart';
+
 class Posts {
   Posts({
     required this.id,
@@ -6,12 +8,14 @@ class Posts {
     required this.title,
     required this.image,
     required this.listLike,
+    this.userUp,
   });
   late String id;
   late String uid;
   late String createdAt;
   late String title;
   late String image;
+  ChatUser? userUp;
   late List<String> listLike;
 
   Posts.fromJson(Map<String, dynamic> json) {

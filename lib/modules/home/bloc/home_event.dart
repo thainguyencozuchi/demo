@@ -8,3 +8,14 @@ abstract class HomeEvent extends Equatable {
 }
 
 class GetPostsEvent extends HomeEvent {}
+
+class UpPostsEvent extends HomeEvent {
+  final String title;
+  final String image;
+  const UpPostsEvent({required this.title, required this.image});
+}
+
+class DeletePostsEvent extends HomeEvent {
+  final String id;
+  const DeletePostsEvent({required this.id});
+}

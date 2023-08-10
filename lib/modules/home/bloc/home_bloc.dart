@@ -3,7 +3,10 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:bloc/bloc.dart';
+import 'package:demo/controllers/api.post.dart';
+import 'package:demo/models/chat_user.dart';
 import 'package:demo/models/posts.dart';
+import 'package:demo/modules/chat/chat.card/chat.screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -15,59 +18,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
     // event handler was added
     on<HomeEvent>((event, emit) async {
-      await homeUser(emit, event);
+      await homeEventSelect(emit, event);
     });
   }
 
-  homeUser(Emitter<HomeState> emit, HomeEvent event) async {
+  homeEventSelect(Emitter<HomeState> emit, HomeEvent event) async {
     emit(HomeLoading());
     try {
       if (event is GetPostsEvent) {
-        await Future.delayed(Duration(seconds: 1));
-        emit(GetPostsState(listPosts: [
-          Posts(
-              id: "1",
-              uid: "uid1",
-              createdAt: "createdAt",
-              title: "title",
-              image: "",
-              listLike: []),
-          Posts(
-              id: "2",
-              uid: "uid2",
-              createdAt: "createdAt",
-              title: "title",
-              image: "",
-              listLike: []),
-          Posts(
-              id: "3",
-              uid: "uid3",
-              createdAt: "createdAt",
-              title: "title",
-              image: "",
-              listLike: []),
-          Posts(
-              id: "4",
-              uid: "uid4",
-              createdAt: "createdAt",
-              title: "title",
-              image: "",
-              listLike: []),
-          Posts(
-              id: "5",
-              uid: "uid5",
-              createdAt: "createdAt",
-              title: "title",
-              image: "",
-              listLike: []),
-          Posts(
-              id: "5",
-              uid: "uid6",
-              createdAt: "createdAt",
-              title: "title",
-              image: "",
-              listLike: []),
-        ]));
+        print("Đây 1");
+        List<Posts> getDataPosts = await PostsService().getListPost();
+        ChatUser? user = await AuthService().getCurrentUser();
+        emit(GetPostsState(listPosts: getDataPosts, chatUser: user!));
+      } else if (event is UpPostsEvent) {
+        await PostsService().addPosts(title: event.title, image: event.image);
+        List<Posts> getDataUp = await PostsService().getListPost();
+        emit(UpPostsSucces(listPosts: getDataUp));
       }
     } catch (e) {
       emit(ErorrStatus(error: "Có lỗi xảy ra"));
