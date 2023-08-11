@@ -11,11 +11,19 @@ class GetPostsEvent extends HomeEvent {}
 
 class UpPostsEvent extends HomeEvent {
   final String title;
-  final String image;
-  const UpPostsEvent({required this.title, required this.image});
+  final String imageName;
+  final File? imageFile;
+  const UpPostsEvent({required this.title, required this.imageName, this.imageFile});
 }
 
 class DeletePostsEvent extends HomeEvent {
   final String id;
   const DeletePostsEvent({required this.id});
 }
+
+class UpdateLikePostsEvent extends HomeEvent {
+  final String id;
+  final List<String> listLike;
+  const UpdateLikePostsEvent({required this.id, required this.listLike});
+}
+

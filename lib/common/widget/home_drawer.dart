@@ -25,15 +25,23 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
-  ChatUser? user;
+  ChatUser user = ChatUser(
+      id: '',
+      about: '',
+      email: '',
+      createdAt: '',
+      image: '',
+      isOnline: false,
+      lastActive: '',
+      name: '',
+      pushToken: '');
   List<DrawerList>? drawerList;
   void getUser() async {
+    print("Chạy vào đây rồi");
     ChatUser? result = await AuthService().getCurrentUser();
-    print("Name: ${result.toString()}");
     setState(() {
       if (result != null) {
         user = result;
-       
       }
     });
   }
@@ -49,17 +57,17 @@ class _HomeDrawerState extends State<HomeDrawer> {
     drawerList = <DrawerList>[
       DrawerList(
         index: DrawerIndex.HOME,
-        labelName: 'Home',
+        labelName: 'Trang chủ',
         icon: Icon(Icons.home),
       ),
       DrawerList(
         index: DrawerIndex.Message,
-        labelName: 'Message',
+        labelName: 'Tin nhắn',
         icon: Icon(Icons.chat),
       ),
       DrawerList(
         index: DrawerIndex.Profile,
-        labelName: 'Profile',
+        labelName: 'Thông tin',
         icon: Icon(Icons.person),
       ),
     ];
@@ -99,28 +107,30 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                   .value /
                               360),
                           child: Container(
-                            height: 120,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: AppTheme.grey.withOpacity(0.6),
-                                    offset: const Offset(2.0, 4.0),
-                                    blurRadius: 8),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(60.0)),
-                              child: (user != null &&
-                                      user!.image != "null"&&
-                                      user!.image != "" )
-                                  ? Image.network(user!.image)
-                                  : Image.network(
-                                      'https://firebasestorage.googleapis.com/v0/b/fir-7dc77.appspot.com/o/images%2Fnoavater.jpeg?alt=media'),
-                            ),
-                          ),
+                              height: 120,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: AppTheme.grey.withOpacity(0.6),
+                                      offset: const Offset(2.0, 4.0),
+                                      blurRadius: 8),
+                                ],
+                              ),
+                              child: (user.image != "null" && user.image != "")
+                                  ? ClipOval(
+                                      child: FadeInImage.assetNetwork(
+                                        placeholder:
+                                            'assets/images/no-avatar.png',
+                                        image: user.image,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : ClipOval(
+                                      child: Image.asset(
+                                          'assets/images/no-avatar.png'),
+                                    )),
                         ),
                       );
                     },
@@ -128,9 +138,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, left: 4),
                     child: Text(
-                      (user != null && user!.name != "")
-                          ? user!.name
-                          : user!.email,
+                      (user.name != "") ? user.name : user.email,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: isLightMode ? AppTheme.grey : AppTheme.white,
@@ -167,7 +175,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             children: <Widget>[
               ListTile(
                 title: Text(
-                  'Sign Out',
+                  'Đăng xuất',
                   style: TextStyle(
                     fontFamily: AppTheme.fontName,
                     fontWeight: FontWeight.w600,

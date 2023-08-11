@@ -22,7 +22,8 @@ class PostsService {
           await firestore.collection("posts").doc(element.id).get();
       Posts dataConvert = Posts.fromJson(resultElement.data()!);
 
-      var userUp = await firestore.collection('users').doc(dataConvert.uid).get();
+      var userUp =
+          await firestore.collection('users').doc(dataConvert.uid).get();
       ChatUser userUpConvert = ChatUser.fromJson(userUp.data()!);
       dataConvert.userUp = userUpConvert;
       data.insert(0, dataConvert);
@@ -40,5 +41,17 @@ class PostsService {
         title: title,
         uid: user.uid);
     return await firestore.collection('posts').doc(time).set(putPost.toJson());
+  }
+
+  Future<void> deletePosts({required String id}) async {
+    return await firestore.collection('posts').doc(id).delete();
+  }
+
+  Future<void> updateLikePosts({required Posts post}) async {
+    print("${{'list_like': post.listLike}}");
+    return await firestore
+        .collection('posts')
+        .doc(post.id)
+        .update({'list_like': post.listLike});
   }
 }

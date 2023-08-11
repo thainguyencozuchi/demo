@@ -37,4 +37,18 @@ class UpPostsSucces extends HomeState {
   List<Object> get props => [listPosts];
 }
 
-class DelPostsSucces extends HomeState {}
+class DelPostsSucces extends HomeState {
+    final List<Posts> listPosts;
+
+  const DelPostsSucces({required this.listPosts});
+
+  @override
+  List<Object> get props => [listPosts];
+}
+
+class UpdateLikePostsSucces extends HomeState {
+    final List<Posts> listPosts;
+  const UpdateLikePostsSucces({required this.listPosts});
+  @override
+  List<Object> get props => [listPosts];
+}

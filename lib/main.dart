@@ -29,5 +29,5 @@ class MyApp extends StatelessWidget {
   }
 }
 String getUrlImage(String fileName) {
-  return "https://firebasestorage.googleapis.com/v0/b/image-c0e6f.appspot.com/o/uploads%2F$fileName?alt=media";
+  return "https://firebasestorage.googleapis.com/v0/b/fir-7dc77.appspot.com/o/uploads%2F$fileName?alt=media";
 }

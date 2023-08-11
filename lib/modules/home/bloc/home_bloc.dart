@@ -4,10 +4,12 @@ import 'dart:io';
 import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:demo/controllers/api.post.dart';
+import 'package:demo/main.dart';
 import 'package:demo/models/chat_user.dart';
 import 'package:demo/models/posts.dart';
 import 'package:demo/modules/chat/chat.card/chat.screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../../controllers/firebase.auth.service.dart';
@@ -30,10 +32,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ChatUser? user = await AuthService().getCurrentUser();
         emit(GetPostsState(listPosts: getDataPosts, chatUser: user!));
       } else if (event is UpPostsEvent) {
-        await PostsService().addPosts(title: event.title, image: event.image);
+        if (event.imageFile != null) {
+          await FirebaseStorage.instance
+              .ref('uploads/${event.imageName}')
+              .putFile(event.imageFile!);
+        }
+        await PostsService()
+            .addPosts(title: event.title, image: getUrlImage(event.imageName));
         List<Posts> getDataUp = await PostsService().getListPost();
         emit(UpPostsSucces(listPosts: getDataUp));
-      }
+      } else if (event is DeletePostsEvent) {
+        await PostsService().deletePosts(id: event.id);
+        List<Posts> getData = await PostsService().getListPost();
+        emit(DelPostsSucces(listPosts: getData));
+      } 
     } catch (e) {
       emit(ErorrStatus(error: "Có lỗi xảy ra"));
     }

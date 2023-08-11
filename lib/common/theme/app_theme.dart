@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   AppTheme._();
-
+  static const Color mainColors = Color.fromARGB(255, 174, 233, 254);
   static const Color notWhite = Color(0xFFEDF0F2);
   static const Color nearlyWhite = Color(0xFFFEFEFE);
   static const Color white = Color(0xFFFFFFFF);
   static const Color nearlyBlack = Color(0xFF213333);
   static const Color grey = Color(0xFF3A5160);
   static const Color dark_grey = Color(0xFF313A44);
+  static const Color blue = Color.fromARGB(255, 0, 67, 143);
 
   static const Color darkText = Color(0xFF253840);
   static const Color darkerText = Color(0xFF17262A);
@@ -20,6 +21,10 @@ class AppTheme {
   static const Color chipBackground = Color(0xFFEEF1F3);
   static const Color spacer = Color(0xFFF2F2F2);
   static const String fontName = 'WorkSans';
+
+  static const Color blue1 = Color.fromARGB(255, 102, 173, 255);
+  static const Color red = Colors.red;
+  static const Color green = Colors.green;
 
   static const TextTheme textTheme = TextTheme(
     headline4: display1,
@@ -31,7 +36,8 @@ class AppTheme {
     caption: caption,
   );
 
-  static const TextStyle display1 = TextStyle( // h4 -> display1
+  static const TextStyle display1 = TextStyle(
+    // h4 -> display1
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
     fontSize: 36,
@@ -40,7 +46,8 @@ class AppTheme {
     color: darkerText,
   );
 
-  static const TextStyle headline = TextStyle( // h5 -> headline
+  static const TextStyle headline = TextStyle(
+    // h5 -> headline
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
     fontSize: 24,
@@ -48,7 +55,8 @@ class AppTheme {
     color: darkerText,
   );
 
-  static const TextStyle title = TextStyle( // h6 -> title
+  static const TextStyle title = TextStyle(
+    // h6 -> title
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
     fontSize: 16,
@@ -56,7 +64,8 @@ class AppTheme {
     color: darkerText,
   );
 
-  static const TextStyle subtitle = TextStyle( // subtitle2 -> subtitle
+  static const TextStyle subtitle = TextStyle(
+    // subtitle2 -> subtitle
     fontFamily: fontName,
     fontWeight: FontWeight.w400,
     fontSize: 14,
@@ -64,7 +73,8 @@ class AppTheme {
     color: darkText,
   );
 
-  static const TextStyle body2 = TextStyle( // body1 -> body2
+  static const TextStyle body2 = TextStyle(
+    // body1 -> body2
     fontFamily: fontName,
     fontWeight: FontWeight.w400,
     fontSize: 14,
@@ -72,7 +82,8 @@ class AppTheme {
     color: darkText,
   );
 
-  static const TextStyle body1 = TextStyle( // body2 -> body1
+  static const TextStyle body1 = TextStyle(
+    // body2 -> body1
     fontFamily: fontName,
     fontWeight: FontWeight.w400,
     fontSize: 16,
@@ -80,7 +91,8 @@ class AppTheme {
     color: darkText,
   );
 
-  static const TextStyle caption = TextStyle( // Caption -> caption
+  static const TextStyle caption = TextStyle(
+    // Caption -> caption
     fontFamily: fontName,
     fontWeight: FontWeight.w400,
     fontSize: 12,
@@ -88,4 +100,33 @@ class AppTheme {
     color: lightText, // was lightText
   );
 
+  static const TextStyle nameUerPosts = TextStyle(
+      color: lightText,
+      fontSize: 18,
+      letterSpacing: 1,
+      fontWeight: FontWeight.bold);
+
+  static const TextStyle timePosts = TextStyle(
+      color: lightText,
+      fontSize: 13,
+      letterSpacing: 1,
+      fontWeight: FontWeight.normal);
+
+  static const TextStyle titlePost = TextStyle(
+      color: Color.fromARGB(255, 0, 0, 0),
+      fontSize: 14,
+      letterSpacing: 1,
+      fontWeight: FontWeight.normal);
+
+  static const TextStyle textButtonWhite = TextStyle(
+      color: Color.fromARGB(255, 255, 255, 255),
+      fontSize: 14,
+      letterSpacing: 1,
+      fontWeight: FontWeight.normal);
+
+  static const TextStyle lableInput = TextStyle(
+      color: AppTheme.dark_grey,
+      fontSize: 15,
+      letterSpacing: 1,
+      fontWeight: FontWeight.normal);
 }

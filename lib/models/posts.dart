@@ -24,7 +24,12 @@ class Posts {
     createdAt = json['created_at'] ?? '';
     title = json['title'] ?? '';
     id = json['id'] ?? '';
-    listLike = json['last_active'] ?? [];
+    listLike = [];
+    if (json['list_like'] != null && json['list_like'].length > 0) {
+      for (var element in json['list_like']) {
+        listLike.add(element.toString());
+      }
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -33,7 +38,7 @@ class Posts {
     data['uid'] = uid;
     data['title'] = title;
     data['created_at'] = createdAt;
-    data['listLike'] = listLike;
+    data['list_like'] = listLike;
     data['id'] = id;
     return data;
   }

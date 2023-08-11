@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'dart:io';
 
+import 'package:demo/common/theme/app_theme.dart';
 import 'package:demo/modules/home/bloc/home_bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -45,12 +46,16 @@ class _State extends State<UpPostsPopUp> {
           );
         } else if (state is ErorrStatus) {
           Navigator.pop(context);
-          showToast(context: context, msg: state.error, color: colorErorr, icon: const Icon(Icons.warning));
+          showToast(
+              context: context,
+              msg: state.error,
+              color: colorErorr,
+              icon: const Icon(Icons.warning));
         }
       },
       builder: (context, state) {
         return AlertDialog(
-          backgroundColor: const Color.fromARGB(255, 229, 229, 229),
+          backgroundColor:  AppTheme.mainColors,
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -59,15 +64,20 @@ class _State extends State<UpPostsPopUp> {
                   margin: const EdgeInsets.only(right: 10),
                   width: 100,
                   height: 30,
-                  decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(15)),
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(15)),
                   child: InkWell(
-                    onTap: () {
-                      _bloc.add(UpPostsEvent(title: title.text, image: urlImage));
+                    onTap: () async {
+                      _bloc.add(UpPostsEvent(
+                          title: title.text,
+                          imageName: urlImage,
+                          imageFile: selectFile!));
                     },
                     child: const Center(
                         child: Text(
                       "Đăng",
-                      style: TextStyle(color: Colors.white),
+                      style: AppTheme.textButtonWhite,
                     )),
                   ),
                 ),
@@ -75,7 +85,9 @@ class _State extends State<UpPostsPopUp> {
                   margin: const EdgeInsets.only(right: 10),
                   width: 100,
                   height: 30,
-                  decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(15)),
+                  decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(15)),
                   child: InkWell(
                     onTap: () {
                       Navigator.pop(context);
@@ -83,7 +95,7 @@ class _State extends State<UpPostsPopUp> {
                     child: const Center(
                         child: Text(
                       "Huỷ",
-                      style: TextStyle(color: Colors.white),
+                      style: AppTheme.textButtonWhite,
                     )),
                   ),
                 )
@@ -97,13 +109,21 @@ class _State extends State<UpPostsPopUp> {
               children: [
                 TextField(
                   controller: title,
-                  decoration: const InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))), labelText: 'Tiêu đề', fillColor: Color(0xfff2f2f2), contentPadding: EdgeInsets.all(8)),
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: AppTheme.white,width: 3),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
+                      labelText: 'Tiêu đề',
+                      labelStyle: AppTheme.lableInput,
+                      contentPadding: EdgeInsets.all(8)),
                   maxLines: 3,
                   minLines: 1,
                 ),
                 Container(
                     margin: const EdgeInsets.only(top: 10, bottom: 10),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     height: 250,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
@@ -124,10 +144,13 @@ class _State extends State<UpPostsPopUp> {
                       margin: const EdgeInsets.only(right: 10),
                       width: 100,
                       height: 30,
-                      decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(15)),
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(15)),
                       child: InkWell(
                         onTap: () async {
-                          FilePickerResult? result = await FilePicker.platform.pickFiles(
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(
                             type: FileType.custom,
                             allowedExtensions: ['jpg', 'png', 'webp'],
                           );
@@ -144,7 +167,7 @@ class _State extends State<UpPostsPopUp> {
                         child: const Center(
                             child: Text(
                           "Tải ảnh",
-                          style: TextStyle(color: Colors.white),
+                          style: AppTheme.textButtonWhite,
                         )),
                       ),
                     ),
@@ -153,7 +176,9 @@ class _State extends State<UpPostsPopUp> {
                         margin: const EdgeInsets.only(right: 10),
                         width: 100,
                         height: 30,
-                        decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(15)),
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(15)),
                         child: InkWell(
                           onTap: () {
                             setState(() {
@@ -164,7 +189,7 @@ class _State extends State<UpPostsPopUp> {
                           child: const Center(
                               child: Text(
                             "Xoá ảnh",
-                            style: TextStyle(color: Colors.white),
+                            style: AppTheme.textButtonWhite,
                           )),
                         ),
                       )

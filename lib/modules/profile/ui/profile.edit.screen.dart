@@ -15,7 +15,9 @@ import 'profile.screen.dart';
 
 class ProfileEditScreen extends StatefulWidget {
   ChatUser chatUser;
-  ProfileEditScreen({Key? key, required this.chatUser, required ChatUser userLogin}) : super(key: key);
+  ProfileEditScreen(
+      {Key? key, required this.chatUser, required ChatUser userLogin})
+      : super(key: key);
 
   @override
   State<ProfileEditScreen> createState() => _State();
@@ -35,7 +37,6 @@ class _State extends State<ProfileEditScreen> {
       pushToken: '',
       lastActive: '');
 
-
   final TextEditingController _nameController = TextEditingController();
   final _bloc = ProfileBloc();
 
@@ -51,6 +52,23 @@ class _State extends State<ProfileEditScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cập nhật"),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push<void>(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => NavigationHomeScreen(
+                  drawerIndex: DrawerIndex.Profile,
+                  screenView: BlocProvider(
+                    create: (context) => ProfileBloc()..add(GetProfieEvent()),
+                    child: ProfileScreen(),
+                  ),
+                ),
+              ),
+            );
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
       ),
       resizeToAvoidBottomInset: false,
       body: BlocConsumer<ProfileBloc, ProfileState>(
