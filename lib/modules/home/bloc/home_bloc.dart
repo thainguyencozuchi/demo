@@ -26,7 +26,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoading());
     try {
       if (event is GetPostsEvent) {
-        print("Đây 1");
         List<Posts> getDataPosts = await PostsService().getListPost();
         ChatUser? user = await AuthService().getCurrentUser();
         emit(GetPostsState(listPosts: getDataPosts, chatUser: user!));

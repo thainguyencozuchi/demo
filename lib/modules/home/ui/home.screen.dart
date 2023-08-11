@@ -49,11 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             listPosts = state.listPosts;
           } else if (state is ErorrStatus) {
             Navigator.pop(context);
-            showToast(
-                context: context,
-                msg: state.error,
-                color: colorErorr,
-                icon: const Icon(Icons.warning));
+            showToast(context: context, msg: state.error, color: colorErorr, icon: const Icon(Icons.warning));
           }
         },
         builder: (context, state) {
@@ -63,8 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(boxShadow: [
                   BoxShadow(
-                    color: const Color.fromARGB(255, 255, 255, 255)
-                        .withOpacity(0.5),
+                    color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
                     spreadRadius: 5,
                     blurRadius: 7,
                     offset: Offset(0, 3), // changes position of shadow
@@ -72,40 +67,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 ]),
                 child: InkWell(
                   onTap: () {
-                    showDialog(
-                        context: context, builder: (_) => UpPostsPopUp());
+                    showDialog(context: context, builder: (_) => UpPostsPopUp());
                   },
                   child: Row(
                     children: [
                       Container(
                           height: 50,
                           width: 50,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white, width: 2),
-                              borderRadius: BorderRadius.circular(140)),
+                          decoration: BoxDecoration(border: Border.all(color: Colors.white, width: 2), borderRadius: BorderRadius.circular(140)),
                           child: CircleAvatar(
                             backgroundImage: NetworkImage(
-                              (chatUser != null && chatUser!.image != "")
-                                  ? chatUser!.image
-                                  : "https://firebasestorage.googleapis.com/v0/b/fir-7dc77.appspot.com/o/images%2Fnoavater.jpeg?alt=media",
+                              (chatUser != null && chatUser!.image != "") ? chatUser!.image : "https://firebasestorage.googleapis.com/v0/b/fir-7dc77.appspot.com/o/images%2Fnoavater.jpeg?alt=media",
                             ),
                           )),
                       Expanded(
                         child: Container(
-                          height: 30,
+                          margin: EdgeInsets.only(left: 10),
+                          height: 40,
                           decoration: BoxDecoration(
                             border: Border.all(width: 0.5),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(15),
                           ),
                           child: Row(
                             children: [
                               Text(
                                 "     Bạn đang nghĩ gì?",
-                                style: GoogleFonts.lato(
-                                    color: const Color.fromARGB(
-                                        255, 119, 119, 119),
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.normal),
+                                style: GoogleFonts.lato(color: const Color.fromARGB(255, 119, 119, 119), fontSize: 13, fontWeight: FontWeight.normal),
                               ),
                             ],
                           ),
@@ -143,9 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 elevation: 10,
                 borderRadius: BorderRadius.circular(140),
                 child: Container(
-                  decoration: new BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(140)),
+                  decoration: new BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(140)),
                   height: 58,
                   width: 60,
                   child: Stack(
@@ -153,17 +138,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       Container(
                           height: 78,
                           width: 74,
-                          margin: const EdgeInsets.only(
-                              left: 0.0, right: 0, top: 0, bottom: 0),
+                          margin: const EdgeInsets.only(left: 0.0, right: 0, top: 0, bottom: 0),
                           padding: const EdgeInsets.all(0),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white, width: 2),
-                              borderRadius: BorderRadius.circular(140)),
+                          decoration: BoxDecoration(border: Border.all(color: Colors.white, width: 2), borderRadius: BorderRadius.circular(140)),
                           child: CircleAvatar(
                             backgroundImage: NetworkImage(
-                              (post.userUp != null && post.userUp!.image != "")
-                                  ? post.userUp!.image
-                                  : "https://firebasestorage.googleapis.com/v0/b/fir-7dc77.appspot.com/o/images%2Fnoavater.jpeg?alt=media",
+                              (post.userUp != null && post.userUp!.image != "") ? post.userUp!.image : "https://firebasestorage.googleapis.com/v0/b/fir-7dc77.appspot.com/o/images%2Fnoavater.jpeg?alt=media",
                             ),
                           )),
                     ],
@@ -177,14 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15.0, top: 13),
                     child: Text(
-                      (post.userUp != null && post.userUp!.name != "")
-                          ? post.userUp!.name
-                          : "",
-                      style: GoogleFonts.lato(
-                          color: Colors.grey[700],
-                          fontSize: 18,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.bold),
+                      (post.userUp != null && post.userUp!.name != "") ? post.userUp!.name : "",
+                      style: GoogleFonts.lato(color: Colors.grey[700], fontSize: 18, letterSpacing: 1, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
@@ -194,14 +168,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0, top: 10),
                     child: Text(
-                      DateFormat('HH:mm   dd-MM-yyyy').format(
-                          DateTime.fromMillisecondsSinceEpoch(
-                              int.parse(post.createdAt))),
-                      style: GoogleFonts.lato(
-                          color: Colors.grey[700],
-                          fontSize: 13,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.normal),
+                      DateFormat('HH:mm   dd-MM-yyyy').format(DateTime.fromMillisecondsSinceEpoch(int.parse(post.createdAt))),
+                      style: GoogleFonts.lato(color: Colors.grey[700], fontSize: 13, letterSpacing: 1, fontWeight: FontWeight.normal),
                     ),
                   ),
                 ],
@@ -214,11 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
           width: MediaQuery.of(context).size.width,
           child: Text(
             post.title,
-            style: GoogleFonts.lato(
-                color: const Color.fromARGB(255, 0, 0, 0),
-                fontSize: 14,
-                letterSpacing: 1,
-                fontWeight: FontWeight.normal),
+            style: GoogleFonts.lato(color: const Color.fromARGB(255, 0, 0, 0), fontSize: 14, letterSpacing: 1, fontWeight: FontWeight.normal),
           ),
         ),
         if (post.image != "")
@@ -236,21 +200,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 5.0),
-                    child: Icon(
-                      Icons.favorite,
-                      size: 30,
-                      color:(post.listLike.contains(chatUser!.id))
-                      ? Colors.red: Colors.amber
-                      ,
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          post.listLike.add(chatUser!.id);
+                        });
+                      },
+                      child: Icon(
+                        Icons.favorite,
+                        size: 30,
+                        color: (post.listLike.contains(chatUser!.id)) ? Colors.red : const Color.fromARGB(255, 92, 92, 92),
+                      ),
                     ),
                   ),
                   Text(
                     '${post.listLike.length}',
-                    style: GoogleFonts.averageSans(
-                        color: Colors.grey[700],
-                        fontSize: 22,
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.normal),
+                    style: GoogleFonts.averageSans(color: Colors.grey[700], fontSize: 22, letterSpacing: 1, fontWeight: FontWeight.normal),
                   ),
                 ],
               ),
@@ -275,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         SizedBox(
-          height: 10,
+          height: 20,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10),
