@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         isOnline: false,
         lastActive: '',
         name: '',
-        pushToken: '');
+        pushToken: '', background: '', phone: '', birth: '');
   }
 
   @override

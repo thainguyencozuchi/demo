@@ -1,11 +1,14 @@
 // ignore_for_file: unused_import
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'package:bloc/bloc.dart';
+import 'package:demo/common/exeption/check.dart';
 import 'package:demo/main.dart';
 import 'package:demo/models/chat_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 // import 'package:meta/meta.dart';
@@ -34,18 +37,30 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           emit(const GetProfieFailure(error: "User not found"));
         }
       } else if (event is UpdateProfieEvent) {
-        if (event.displayName != "") {
-          var updateName = await AuthService()
-              .updateUserName(event.displayName, event.chatUser);
-          var updateUrl = true;
-          if (event.fileName != "") {
-            updateUrl = await AuthService()
-                .updatePhotoUrl(getUrlImage(event.fileName), event.chatUser);
-          }
-          if (updateUrl == true && updateName == true) {
-            emit(UpdateProfieSuccess());
-          } else {
-            emit(const GetProfieFailure(error: "Erorr"));
+        if (event.name != "") {
+          if (event.phoneNumber != "") {
+            bool isphone = isPhoneNumber(event.phoneNumber);
+            if (isphone) {
+              if (event.avatarFile != null) {
+                await FirebaseStorage.instance.ref('uploads/${event.avatarName}').putFile(event.avatarFile!);
+                event.chatUser.image = getUrlImage(event.avatarName);
+              }
+              if (event.bacnkgroundFile != null) {
+                await FirebaseStorage.instance.ref('uploads/${event.bacnkgroundName}').putFile(event.bacnkgroundFile!);
+                event.chatUser.background = getUrlImage(event.bacnkgroundName);
+              }
+              event.chatUser.about = event.about;
+              event.chatUser.name = event.name;
+              event.chatUser.phone = event.phoneNumber;
+              var checkUpdate = await AuthService().updateAll(event.chatUser);
+              if (checkUpdate == true) {
+                emit(UpdateProfieSuccess());
+              } else {
+                emit(const GetProfieFailure(error: "Erorr"));
+              }
+            } else {
+              emit(const GetProfieFailure(error: "Số điện thoại không đúng định dạng"));
+            }
           }
         } else {
           emit(const GetProfieFailure(error: "Ko được để trống"));
@@ -58,8 +73,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         } else if (event.password != event.rePassword) {
           emit(const GetProfieFailure(error: "Nhập lại không khớp"));
         } else {
-          var updatePass =
-              await AuthService().updateUserPassword(event.password);
+          var updatePass = await AuthService().updateUserPassword(event.password);
           if (updatePass == true) {
             emit(ChangePasswordSuccess());
           } else {

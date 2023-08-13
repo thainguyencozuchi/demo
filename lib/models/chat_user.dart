@@ -1,15 +1,5 @@
 class ChatUser {
-  ChatUser({
-    required this.image,
-    required this.about,
-    required this.name,
-    required this.createdAt,
-    required this.isOnline,
-    required this.id,
-    required this.lastActive,
-    required this.email,
-    required this.pushToken,
-  });
+  ChatUser({required this.image, required this.about, required this.name, required this.createdAt, required this.isOnline, required this.id, required this.lastActive, required this.email, required this.phone, required this.pushToken, required this.background, required this.birth});
   late String image;
   late String about;
   late String name;
@@ -18,7 +8,10 @@ class ChatUser {
   late String id;
   late String lastActive;
   late String email;
+  late String birth;
+  late String phone;
   late String pushToken;
+  late String background;
 
   ChatUser.fromJson(Map<String, dynamic> json) {
     image = (json['image'] != "null") ? json['image'] ?? "" : '';
@@ -29,7 +22,10 @@ class ChatUser {
     id = json['id'] ?? '';
     lastActive = json['last_active'] ?? '';
     email = json['email'] ?? '';
+    phone = (json['phone'] != null && json['phone'] != "null") ? json['phone'] : '';
+    birth = (json['birth'] != null && json['birth'] != "null") ? json['birth'] : '';
     pushToken = json['push_token'] ?? '';
+    background = json['background'] ?? '';
   }
 
   get uid => null;
@@ -44,7 +40,10 @@ class ChatUser {
     data['id'] = id;
     data['last_active'] = lastActive;
     data['email'] = email;
+    data['phone'] = phone;
+    data['birth'] = birth;
     data['push_token'] = pushToken;
+    data['background'] = background;
     return data;
   }
 }

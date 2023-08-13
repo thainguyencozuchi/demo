@@ -46,31 +46,17 @@ class AuthService {
   }
 
   // Đăng ký người dùng với email và mật khẩu
-  Future<ChatUser?> registerWithEmailAndPassword(
-      String email, String password, String fullName) async {
+  Future<ChatUser?> registerWithEmailAndPassword(String email, String password, String fullName) async {
     try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       User? user = _userFromFirebaseUser(userCredential);
       if (user != null) {
         final time = DateTime.now().millisecondsSinceEpoch.toString();
-        final chatUser = ChatUser(
-            id: user.uid,
-            name: user.displayName.toString(),
-            email: user.email.toString(),
-            about: "Hey, QH12",
-            image: user.photoURL.toString(),
-            createdAt: time,
-            isOnline: false,
-            lastActive: time,
-            pushToken: '');
-        await firestore
-            .collection('users')
-            .doc(user.uid)
-            .set(chatUser.toJson());
+        final chatUser = ChatUser(id: user.uid, name: user.displayName.toString(), email: user.email.toString(), about: "Hey, QH12", image: user.photoURL.toString(), createdAt: time, isOnline: false, lastActive: time, pushToken: '', background: '', phone: '', birth: '');
+        await firestore.collection('users').doc(user.uid).set(chatUser.toJson());
         return chatUser;
       }
       return null;
@@ -81,19 +67,16 @@ class AuthService {
   }
 
   // Đăng nhập với email và mật khẩu
-  Future<User?> signInWithEmailAndPassword(
-      String email, String password) async {
+  Future<User?> signInWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
       if (userCredential.user != null) {
-        String? accessToken =
-            await userCredential.user!.getIdToken(); // Lấy token truy cập
+        String? accessToken = await userCredential.user!.getIdToken(); // Lấy token truy cập
         if (accessToken != null) {
-          await saveAccessTokenToPrefs(
-              email, password); // Lưu vào SharedPreferences
+          await saveAccessTokenToPrefs(email, password); // Lưu vào SharedPreferences
         }
       }
       return _userFromFirebaseUser(userCredential);
@@ -119,10 +102,7 @@ class AuthService {
   Future<ChatUser?> getCurrentUser() async {
     try {
       if (_auth.currentUser != null) {
-        var result = await firestore
-            .collection('users')
-            .doc(_auth.currentUser!.uid)
-            .get();
+        var result = await firestore.collection('users').doc(_auth.currentUser!.uid).get();
         if (result.exists) {
           ChatUser chatUser = ChatUser.fromJson(result.data()!);
           APIs.updateActiveStatus(true);
@@ -148,10 +128,7 @@ class AuthService {
     try {
       if (_auth.currentUser != null) {
         await _auth.currentUser!.updateEmail(newEmail);
-        await firestore
-            .collection('users')
-            .doc(chatUser.id)
-            .update({'email': newEmail});
+        await firestore.collection('users').doc(chatUser.id).update({'email': newEmail});
         return true;
       }
       return false;
@@ -180,10 +157,7 @@ class AuthService {
     try {
       if (_auth.currentUser != null) {
         await _auth.currentUser!.updateDisplayName(newName);
-        await firestore
-            .collection('users')
-            .doc(chatUser.id)
-            .update({'name': newName});
+        await firestore.collection('users').doc(chatUser.id).update({'name': newName});
         return true;
       }
       return false;
@@ -197,10 +171,22 @@ class AuthService {
     try {
       if (_auth.currentUser != null) {
         await _auth.currentUser!.updatePhotoURL(url);
-        await firestore
-            .collection('users')
-            .doc(chatUser.id)
-            .update({'image': url});
+        await firestore.collection('users').doc(chatUser.id).update({'image': url});
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print("Error updating photo url: $e");
+      return false;
+    }
+  }
+
+  Future<bool> updateAll(ChatUser chatUser) async {
+    try {
+      if (_auth.currentUser != null) {
+        await _auth.currentUser!.updatePhotoURL(chatUser.image);
+        await _auth.currentUser!.updateDisplayName(chatUser.name);
+        await firestore.collection('users').doc(chatUser.id).update(chatUser.toJson());
         return true;
       }
       return false;

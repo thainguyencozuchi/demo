@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of 'profile_bloc.dart';
 
 abstract class ProfileEvent extends Equatable {
@@ -10,17 +12,31 @@ abstract class ProfileEvent extends Equatable {
 class GetProfieEvent extends ProfileEvent {}
 
 class UpdateProfieEvent extends ProfileEvent {
-  final String fileName;
-  final String displayName;
+  File? avatarFile;
+  File? bacnkgroundFile;
+  final String name;
+  final String avatarName;
+  final String bacnkgroundName;
+  final String phoneNumber;
+  final String birth;
+  final String about;
   final ChatUser chatUser;
 
-  const UpdateProfieEvent({required this.fileName, required this.displayName, required this.chatUser});
-  @override
-  List<Object> get props => [fileName, displayName];
+  UpdateProfieEvent({
+    this.avatarFile,
+    this.bacnkgroundFile,
+    required this.avatarName,
+    required this.name,
+    required this.bacnkgroundName,
+    required this.phoneNumber,
+    required this.birth,
+    required this.about,
+    required this.chatUser,
+  });
 }
 
 class ChangePassEvent extends ProfileEvent {
-  final String password;
+  final password;
   final String rePassword;
   final ChatUser chatUser;
 

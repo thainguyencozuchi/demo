@@ -1,4 +1,4 @@
 import 'package:flutter/material.dart';
 
-const colorSuccesc = Color.fromARGB(255, 70, 180, 74);
-const colorErorr = Color.fromARGB(255, 230, 132, 67);
+const colorSuccesc = Color.fromARGB(255, 35, 168, 28);
+const colorErorr = Color.fromARGB(255, 255, 138, 59);

@@ -31,7 +31,7 @@ class APIs {
       createdAt: '',
       isOnline: false,
       lastActive: '',
-      pushToken: '');
+      pushToken: '', background: '', phone: '', birth: '');
 
   // to return current user
   static User get user => auth.currentUser!;
@@ -152,7 +152,7 @@ class APIs {
         createdAt: time,
         isOnline: false,
         lastActive: time,
-        pushToken: '');
+        pushToken: '', background: '', phone: '', birth: '');
 
     return await firestore
         .collection('users')

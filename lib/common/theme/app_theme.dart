@@ -25,6 +25,7 @@ class AppTheme {
   static const Color blue1 = Color.fromARGB(255, 102, 173, 255);
   static const Color red = Colors.red;
   static const Color green = Colors.green;
+  static const Color orange = Colors.orange;
 
   static const TextTheme textTheme = TextTheme(
     headline4: display1,
@@ -85,7 +86,7 @@ class AppTheme {
   static const TextStyle body1 = TextStyle(
     // body2 -> body1
     fontFamily: fontName,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w600,
     fontSize: 16,
     letterSpacing: -0.05,
     color: darkText,
@@ -100,33 +101,34 @@ class AppTheme {
     color: lightText, // was lightText
   );
 
-  static const TextStyle nameUerPosts = TextStyle(
-      color: lightText,
-      fontSize: 18,
-      letterSpacing: 1,
-      fontWeight: FontWeight.bold);
+  static const TextStyle nameUerPosts = TextStyle(color: lightText, fontSize: 18, letterSpacing: 1, fontWeight: FontWeight.bold);
 
-  static const TextStyle timePosts = TextStyle(
-      color: lightText,
-      fontSize: 13,
-      letterSpacing: 1,
-      fontWeight: FontWeight.normal);
+  static const TextStyle timePosts = TextStyle(color: lightText, fontSize: 13, letterSpacing: 1, fontWeight: FontWeight.normal);
 
-  static const TextStyle titlePost = TextStyle(
-      color: Color.fromARGB(255, 0, 0, 0),
-      fontSize: 14,
-      letterSpacing: 1,
-      fontWeight: FontWeight.normal);
+  static const TextStyle titlePost = TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 14, letterSpacing: 1, fontWeight: FontWeight.normal);
 
-  static const TextStyle textButtonWhite = TextStyle(
-      color: Color.fromARGB(255, 255, 255, 255),
-      fontSize: 14,
-      letterSpacing: 1,
-      fontWeight: FontWeight.normal);
+  static const TextStyle textButtonWhite = TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 14, letterSpacing: 1, fontWeight: FontWeight.normal);
 
-  static const TextStyle lableInput = TextStyle(
-      color: AppTheme.dark_grey,
-      fontSize: 15,
-      letterSpacing: 1,
-      fontWeight: FontWeight.normal);
+  static const TextStyle lableInput = TextStyle(color: AppTheme.dark_grey, fontSize: 15, letterSpacing: 1, fontWeight: FontWeight.normal);
+
+  static const TextStyle nameInfor = TextStyle(color: AppTheme.dark_grey, fontSize: 20, letterSpacing: 1, fontWeight: FontWeight.w600);
+  OutlineInputBorder myinputborder() {
+    //return type is OutlineInputBorder
+    return const OutlineInputBorder(
+        //Outline border type for TextFeild
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderSide: BorderSide(
+          color: blue1,
+          width: 3,
+        ));
+  }
+
+  OutlineInputBorder myfocusborder() {
+    return const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderSide: BorderSide(
+          color: blue1,
+          width: 3,
+        ));
+  }
 }
