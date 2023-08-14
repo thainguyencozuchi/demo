@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:demo/common/theme/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../controllers/api.dart';
@@ -60,7 +61,7 @@ class _ChatUserCardState extends State<ChatUserCard> {
                       width: mq.height * .055,
                       height: mq.height * .055,
                       imageUrl: widget.user.image,
-                      errorWidget: (context, url, error) => const CircleAvatar(child: Icon(CupertinoIcons.person)),
+                      errorWidget: (context, url, error) => const CircleAvatar(backgroundColor:AppTheme.blue1,child: Icon(CupertinoIcons.person)),
                     ),
                   ),
                 ),

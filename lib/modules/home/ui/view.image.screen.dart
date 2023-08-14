@@ -1,15 +1,20 @@
-// ignore_for_file: must_be_immutable, avoid_print, depend_on_referenced_packages
-
+// ignore_for_file: must_be_immutable, avoid_print, depend_on_referenced_packages, use_build_context_synchronously
 import 'dart:io';
 
+import 'package:demo/common/theme/color.dart';
+import 'package:demo/common/widget/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:flowder/flowder.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:android_path_provider/android_path_provider.dart';
 
 class ViewImageScreen extends StatefulWidget {
   String url;
-  ViewImageScreen({Key? key, required this.url}) : super(key: key);
+  String fileName;
+
+  ViewImageScreen({Key? key, required this.url, required this.fileName})
+      : super(key: key);
 
   @override
   State<ViewImageScreen> createState() => _State();
@@ -26,7 +31,6 @@ class _State extends State<ViewImageScreen> {
     super.initState();
     controller = PhotoViewController()..outputStateStream.listen(listener);
     scaleStateController = PhotoViewScaleStateController();
-    initPlatformState();
   }
 
   @override
@@ -41,17 +45,33 @@ class _State extends State<ViewImageScreen> {
     });
   }
 
-  late DownloaderUtils options;
-  late DownloaderCore core;
   late final String path;
 
-  Future<void> initPlatformState() async {
-    _setPath();
-    if (!mounted) return;
+  static Future<String> _prepareSaveDir() async {
+    final _localPath = await _findLocalPath();
+    final savedDir = Directory(_localPath);
+    bool hasExisted = await savedDir.exists();
+    if (!hasExisted) {
+      await savedDir.create();
+    }
+
+    return _localPath;
   }
 
-  void _setPath() async {
-    path = (await getExternalStorageDirectory())!.path;
+  static Future<String> _findLocalPath() async {
+    var externalStorageDirPath;
+    if (Platform.isAndroid) {
+      try {
+        externalStorageDirPath = await AndroidPathProvider.downloadsPath;
+      } catch (e) {
+        final directory = await getExternalStorageDirectory();
+        externalStorageDirPath = directory?.path;
+      }
+    } else if (Platform.isIOS) {
+      externalStorageDirPath =
+          (await getApplicationDocumentsDirectory()).absolute.path;
+    }
+    return externalStorageDirPath;
   }
 
   @override
@@ -61,23 +81,21 @@ class _State extends State<ViewImageScreen> {
         actions: [
           IconButton(
               onPressed: () async {
-                try {
-                  // options = DownloaderUtils(
-                  //   progressCallback: (current, total) {
-                  //     final progress = (current / total) * 100;
-                  //     print('Downloading: $progress');
-                  //   },
-                  //   file: File('$path/200MB.zip'),
-                  //   progress: ProgressImplementation(),
-                  //   onDone: (value) {
-                  //     print('COMPLETE');
-                  //   },
-                  //   deleteOnCancel: true,
-                  // );
-                  // core = await Flowder.download(widget.url, options);
-                } catch (e) {
-                  print("error: $e");
-                }
+               try{
+                 await FlutterDownloader.enqueue(
+                  url: widget.url,
+                  savedDir: await _prepareSaveDir(),
+                  fileName: DateTime.now().millisecondsSinceEpoch.toString(),
+                  saveInPublicStorage: true,
+                  showNotification:
+                      false,
+                  openFileFromNotification:
+                      false,
+                );
+                showToast(context: context, msg: "Tải thành công", color: colorSuccesc, icon: const Icon(Icons.done));
+               }catch(e){
+                print("erorr: $e");
+               }
               },
               icon: const Icon(Icons.download))
         ],
@@ -90,18 +108,6 @@ class _State extends State<ViewImageScreen> {
             // controller: controller,
             scaleStateController: scaleStateController,
           )),
-          ElevatedButton(
-            onPressed: () async => core.resume(),
-            child: Text('RESUME'),
-          ),
-          ElevatedButton(
-            onPressed: () async => core.cancel(),
-            child: Text('CANCEL'),
-          ),
-          ElevatedButton(
-            onPressed: () async => core.pause(),
-            child: Text('PAUSE'),
-          ),
         ],
       ),
     );

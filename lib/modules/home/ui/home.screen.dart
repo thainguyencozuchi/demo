@@ -43,127 +43,125 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: Row(),
-          flexibleSpace: Image(
-            image: AssetImage('assets/background/img.jpeg'),
+    return Scaffold(
+      appBar: AppBar(
+        leading: Row(),
+        flexibleSpace: Image(
+          image: AssetImage('assets/background/img.jpeg'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background/background2.jpeg'),
             fit: BoxFit.cover,
           ),
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/background/background2.jpeg'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: BlocConsumer<HomeBloc, HomeState>(
-            listener: (context, state) {
-              if (state is HomeLoading) {
-                onLoading(context);
-                return;
-              } else if (state is GetPostsState) {
-                Navigator.pop(context);
-                listPosts = state.listPosts;
-                chatUser = state.chatUser;
-              } else if (state is UpPostsSucces) {
-                Navigator.pop(context);
-                listPosts = state.listPosts;
-              } else if (state is DelPostsSucces) {
-                Navigator.pop(context);
-                listPosts = state.listPosts;
-              } else if (state is ErorrStatus) {
-                Navigator.pop(context);
-                showToast(
-                    context: context,
-                    msg: state.error,
-                    color: colorErorr,
-                    icon: const Icon(Icons.warning));
-              }
-            },
-            builder: (context, state) {
-              return Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ]),
-                    child: InkWell(
-                      onTap: () {
-                        showDialog(
-                            context: context, builder: (_) => UpPostsPopUp());
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Colors.white, width: 2),
-                                  borderRadius: BorderRadius.circular(140)),
-                              child: (chatUser != null && chatUser!.image != "")
-                                  ? ClipOval(
-                                      child: FadeInImage.assetNetwork(
-                                        placeholder:
-                                            'assets/images/no-avatar.png',
-                                        image: chatUser!.image,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
-                                  : CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          'assets/images/no-avatar.png'),
-                                    )),
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(left: 10),
-                              height: 40,
-                              decoration: BoxDecoration(
+        child: BlocConsumer<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is HomeLoading) {
+              onLoading(context);
+              return;
+            } else if (state is GetPostsState) {
+              Navigator.pop(context);
+              listPosts = state.listPosts;
+              chatUser = state.chatUser;
+            } else if (state is UpPostsSucces) {
+              Navigator.pop(context);
+              listPosts = state.listPosts;
+            } else if (state is DelPostsSucces) {
+              Navigator.pop(context);
+              listPosts = state.listPosts;
+            } else if (state is ErorrStatus) {
+              Navigator.pop(context);
+              showToast(
+                  context: context,
+                  msg: state.error,
+                  color: colorErorr,
+                  icon: const Icon(Icons.warning));
+            }
+          },
+          builder: (context, state) {
+            return Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ]),
+                  child: InkWell(
+                    onTap: () {
+                      showDialog(
+                          context: context, builder: (_) => UpPostsPopUp());
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
                                 border:
-                                    Border.all(width: 2, color: AppTheme.blue1),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "     Bạn đang nghĩ gì?",
-                                    style: TextStyle(
-                                        color: AppTheme.blue1,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
-                              ),
+                                    Border.all(color: Colors.white, width: 2),
+                                borderRadius: BorderRadius.circular(140)),
+                            child: (chatUser != null && chatUser!.image != "")
+                                ? ClipOval(
+                                    child: FadeInImage.assetNetwork(
+                                      placeholder:
+                                          'assets/images/no-avatar.png',
+                                      image: chatUser!.image,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        'assets/images/no-avatar.png'),
+                                  )),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            height: 40,
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(width: 2, color: AppTheme.blue1),
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                          )
-                        ],
-                      ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "     Bạn đang nghĩ gì?",
+                                  style: TextStyle(
+                                      color: AppTheme.blue1,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      child: ListView(
-                        children: [
-                          for (var element in listPosts)
-                            _buildCardPosts(post: element)
-                          //  _buildCardPosts(element)
-                        ],
-                      ),
+                ),
+                Expanded(
+                  child: Container(
+                    child: ListView(
+                      children: [
+                        for (var element in listPosts)
+                          _buildCardPosts(post: element)
+                        //  _buildCardPosts(element)
+                      ],
                     ),
                   ),
-                ],
-              );
-            },
-          ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -264,6 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => ViewImageScreen(
                         url: post.image,
+                        fileName: post.uid,
                       ),
                     ),
                   );

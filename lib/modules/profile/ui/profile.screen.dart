@@ -29,47 +29,45 @@ class _State extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: BlocConsumer<ProfileBloc, ProfileState>(
-          listener: (context, state) {
-            if (state is ProfileLoading) {
-              onLoading(context);
-              return;
-            } else if (state is GetProfieSuccess) {
-              Navigator.pop(context);
-              userLogin = state.chatUser;
-            } else if (state is GetProfieFailure) {
-              Navigator.pop(context);
-              showToast(context: context, msg: state.error, color: colorErorr, icon: const Icon(Icons.warning));
-            }
-          },
-          builder: (context, state) {
-            return Stack(
-              alignment: AlignmentDirectional.bottomCenter,
-              children: [
-                _buildBackgroundImage(),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  decoration: BoxDecoration(
-                    color: AppTheme.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                    image: DecorationImage(
-                      image: AssetImage('assets/background/b2.jpeg'),
-                      fit: BoxFit.cover,
-                    ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileLoading) {
+            onLoading(context);
+            return;
+          } else if (state is GetProfieSuccess) {
+            Navigator.pop(context);
+            userLogin = state.chatUser;
+          } else if (state is GetProfieFailure) {
+            Navigator.pop(context);
+            showToast(context: context, msg: state.error, color: colorErorr, icon: const Icon(Icons.warning));
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: [
+              _buildBackgroundImage(),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.7,
+                decoration: BoxDecoration(
+                  color: AppTheme.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
-                  child: _buildInfor(),
+                  image: DecorationImage(
+                    image: AssetImage('assets/background/b2.jpeg'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                _buildavatar(),
-              ],
-            );
-          },
-        ),
+                child: _buildInfor(),
+              ),
+              _buildavatar(),
+            ],
+          );
+        },
       ),
     );
   }

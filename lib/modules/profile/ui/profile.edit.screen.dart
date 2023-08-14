@@ -86,235 +86,233 @@ class _State extends State<ProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: BlocConsumer<ProfileBloc, ProfileState>(
-          bloc: _bloc,
-          listener: (context, state) {
-            if (state is ProfileLoading) {
-              onLoading(context);
-              return;
-            } else if (state is UpdateProfieSuccess) {
-              Navigator.pop(context);
-              showToast(context: context, msg: "Cập nhật thành công", color: colorSuccesc, icon: const Icon(Icons.done));
-            } else if (state is GetProfieFailure) {
-              Navigator.pop(context);
-              showToast(context: context, msg: state.error, color: colorErorr, icon: const Icon(Icons.warning));
-            }
-          },
-          builder: (context, state) {
-            return Stack(
-              alignment: AlignmentDirectional.bottomCenter,
-              children: [
-                _buildBackgroundImage(),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  decoration: const BoxDecoration(
-                      color: AppTheme.white,
-                      image: DecorationImage(
-                        image: AssetImage('assets/background/b2.jpeg'),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      )),
-                  child: ListView(
-                    children: [
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: TextFormField(
-                            controller: _nameController,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.person),
-                              border: myinputborder(),
-                              enabledBorder: myinputborder(),
-                              focusedBorder: myfocusborder(),
-                              labelText: 'Tên',
-                            ),
-                            keyboardType: TextInputType.text,
-                            textCapitalization: TextCapitalization.characters),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: TextFormField(
-                            controller: _phoneController,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.phone),
-                              border: myinputborder(),
-                              enabledBorder: myinputborder(),
-                              focusedBorder: myfocusborder(),
-                              labelText: 'Số điện thoại',
-                            ),
-                            keyboardType: TextInputType.text,
-                            textCapitalization: TextCapitalization.characters),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: TextFormField(
-                          controller: _birthController,
-                          readOnly: true, // To prevent manual text input
-                          onTap: () => _selectDate(context),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: BlocConsumer<ProfileBloc, ProfileState>(
+        bloc: _bloc,
+        listener: (context, state) {
+          if (state is ProfileLoading) {
+            onLoading(context);
+            return;
+          } else if (state is UpdateProfieSuccess) {
+            Navigator.pop(context);
+            showToast(context: context, msg: "Cập nhật thành công", color: colorSuccesc, icon: const Icon(Icons.done));
+          } else if (state is GetProfieFailure) {
+            Navigator.pop(context);
+            showToast(context: context, msg: state.error, color: colorErorr, icon: const Icon(Icons.warning));
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: [
+              _buildBackgroundImage(),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.7,
+                decoration: const BoxDecoration(
+                    color: AppTheme.white,
+                    image: DecorationImage(
+                      image: AssetImage('assets/background/b2.jpeg'),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    )),
+                child: ListView(
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextFormField(
+                          controller: _nameController,
                           decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.calendar_today),
-                            border: myinputborder(), // You need to define myinputborder() function
+                            prefixIcon: const Icon(Icons.person),
+                            border: myinputborder(),
                             enabledBorder: myinputborder(),
                             focusedBorder: myfocusborder(),
-                            labelText: "Ngày sinh",
+                            labelText: 'Tên',
                           ),
                           keyboardType: TextInputType.text,
-                          textCapitalization: TextCapitalization.none,
+                          textCapitalization: TextCapitalization.characters),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextFormField(
+                          controller: _phoneController,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.phone),
+                            border: myinputborder(),
+                            enabledBorder: myinputborder(),
+                            focusedBorder: myfocusborder(),
+                            labelText: 'Số điện thoại',
+                          ),
+                          keyboardType: TextInputType.text,
+                          textCapitalization: TextCapitalization.characters),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextFormField(
+                        controller: _birthController,
+                        readOnly: true, // To prevent manual text input
+                        onTap: () => _selectDate(context),
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.calendar_today),
+                          border: myinputborder(), // You need to define myinputborder() function
+                          enabledBorder: myinputborder(),
+                          focusedBorder: myfocusborder(),
+                          labelText: "Ngày sinh",
                         ),
+                        keyboardType: TextInputType.text,
+                        textCapitalization: TextCapitalization.none,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: TextFormField(
-                            controller: _aboutController,
-                            maxLines: 5,
-                            minLines: 2,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.info),
-                              border: myinputborder(),
-                              enabledBorder: myinputborder(),
-                              focusedBorder: myfocusborder(),
-                              labelText: 'Giới thiệu',
-                            ),
-                            keyboardType: TextInputType.text,
-                            textCapitalization: TextCapitalization.characters),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              height: 40,
-                              decoration: BoxDecoration(color: AppTheme.blue1, borderRadius: BorderRadius.circular(15)),
-                              child: InkWell(
-                                onTap: () async {
-                                  FilePickerResult? result = await FilePicker.platform.pickFiles(
-                                    type: FileType.custom,
-                                    allowedExtensions: ['jpg', 'png'],
-                                  );
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextFormField(
+                          controller: _aboutController,
+                          maxLines: 5,
+                          minLines: 2,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.info),
+                            border: myinputborder(),
+                            enabledBorder: myinputborder(),
+                            focusedBorder: myfocusborder(),
+                            labelText: 'Giới thiệu',
+                          ),
+                          keyboardType: TextInputType.text,
+                          textCapitalization: TextCapitalization.characters),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: 40,
+                            decoration: BoxDecoration(color: AppTheme.blue1, borderRadius: BorderRadius.circular(15)),
+                            child: InkWell(
+                              onTap: () async {
+                                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: ['jpg', 'png'],
+                                );
 
-                                  if (result != null) {
-                                    setState(() {
-                                      selectFile = File(result.files.single.path!);
-                                      urlImage = result.files.single.name;
-                                    });
-                                  } else {
-                                    showToast(context: context, msg: "Chưa chọn file", color: colorErorr, icon: const Icon(Icons.warning));
-                                  }
-                                },
-                                child: const Center(
-                                    child: Text(
-                                  "Đổi ảnh đại diện",
-                                  style: AppTheme.textButtonWhite,
-                                )),
-                              ),
+                                if (result != null) {
+                                  setState(() {
+                                    selectFile = File(result.files.single.path!);
+                                    urlImage = result.files.single.name;
+                                  });
+                                } else {
+                                  showToast(context: context, msg: "Chưa chọn file", color: colorErorr, icon: const Icon(Icons.warning));
+                                }
+                              },
+                              child: const Center(
+                                  child: Text(
+                                "Đổi ảnh đại diện",
+                                style: AppTheme.textButtonWhite,
+                              )),
                             ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              height: 40,
-                              decoration: BoxDecoration(color: AppTheme.blue1, borderRadius: BorderRadius.circular(15)),
-                              child: InkWell(
-                                onTap: () async {
-                                  FilePickerResult? result = await FilePicker.platform.pickFiles(
-                                    type: FileType.custom,
-                                    allowedExtensions: ['jpg', 'png'],
-                                  );
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: 40,
+                            decoration: BoxDecoration(color: AppTheme.blue1, borderRadius: BorderRadius.circular(15)),
+                            child: InkWell(
+                              onTap: () async {
+                                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: ['jpg', 'png'],
+                                );
 
-                                  if (result != null) {
-                                    setState(() {
-                                      selectFileBackGound = File(result.files.single.path!);
-                                      urlImageBackground = result.files.single.name;
-                                    });
-                                  } else {
-                                    showToast(context: context, msg: "Chưa chọn file", color: colorErorr, icon: const Icon(Icons.warning));
-                                  }
-                                },
-                                child: const Center(
-                                    child: Text(
-                                  "Đổi ảnh bìa",
-                                  style: AppTheme.textButtonWhite,
-                                )),
-                              ),
+                                if (result != null) {
+                                  setState(() {
+                                    selectFileBackGound = File(result.files.single.path!);
+                                    urlImageBackground = result.files.single.name;
+                                  });
+                                } else {
+                                  showToast(context: context, msg: "Chưa chọn file", color: colorErorr, icon: const Icon(Icons.warning));
+                                }
+                              },
+                              child: const Center(
+                                  child: Text(
+                                "Đổi ảnh bìa",
+                                style: AppTheme.textButtonWhite,
+                              )),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 15, bottom: 300),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              height: 40,
-                              decoration: BoxDecoration(color: AppTheme.blue1, borderRadius: BorderRadius.circular(15)),
-                              child: InkWell(
-                                onTap: () async {
-                                  _bloc.add(UpdateProfieEvent(
-                                    avatarFile: selectFile,
-                                    bacnkgroundFile: selectFileBackGound,
-                                    chatUser: chatUser,
-                                    avatarName: urlImage,
-                                    bacnkgroundName: urlImageBackground,
-                                    about: _aboutController.text,
-                                    birth: _birthController.text,
-                                    phoneNumber: _phoneController.text,
-                                    name: _nameController.text,
-                                  ));
-                                },
-                                child: const Center(
-                                    child: Text(
-                                  "Cập nhật",
-                                  style: AppTheme.textButtonWhite,
-                                )),
-                              ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 15, bottom: 300),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: 40,
+                            decoration: BoxDecoration(color: AppTheme.blue1, borderRadius: BorderRadius.circular(15)),
+                            child: InkWell(
+                              onTap: () async {
+                                _bloc.add(UpdateProfieEvent(
+                                  avatarFile: selectFile,
+                                  bacnkgroundFile: selectFileBackGound,
+                                  chatUser: chatUser,
+                                  avatarName: urlImage,
+                                  bacnkgroundName: urlImageBackground,
+                                  about: _aboutController.text,
+                                  birth: _birthController.text,
+                                  phoneNumber: _phoneController.text,
+                                  name: _nameController.text,
+                                ));
+                              },
+                              child: const Center(
+                                  child: Text(
+                                "Cập nhật",
+                                style: AppTheme.textButtonWhite,
+                              )),
                             ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              height: 40,
-                              decoration: BoxDecoration(color: AppTheme.orange, borderRadius: BorderRadius.circular(15)),
-                              child: InkWell(
-                                onTap: () async {
-                                  Navigator.push<void>(
-                                    context,
-                                    MaterialPageRoute<void>(
-                                      builder: (BuildContext context) => NavigationHomeScreen(
-                                        drawerIndex: DrawerIndex.Profile,
-                                        screenView: BlocProvider(
-                                          create: (context) => ProfileBloc()..add(GetProfieEvent()),
-                                          child: ProfileScreen(),
-                                        ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: 40,
+                            decoration: BoxDecoration(color: AppTheme.orange, borderRadius: BorderRadius.circular(15)),
+                            child: InkWell(
+                              onTap: () async {
+                                Navigator.push<void>(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) => NavigationHomeScreen(
+                                      drawerIndex: DrawerIndex.Profile,
+                                      screenView: BlocProvider(
+                                        create: (context) => ProfileBloc()..add(GetProfieEvent()),
+                                        child: ProfileScreen(),
                                       ),
                                     ),
-                                  );
-                                },
-                                child: const Center(
-                                    child: Text(
-                                  "Trở về",
-                                  style: AppTheme.textButtonWhite,
-                                )),
-                              ),
+                                  ),
+                                );
+                              },
+                              child: const Center(
+                                  child: Text(
+                                "Trở về",
+                                style: AppTheme.textButtonWhite,
+                              )),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                _buildavatar(),
-              ],
-            );
-          },
-        ),
+              ),
+              _buildavatar(),
+            ],
+          );
+        },
       ),
     );
   }

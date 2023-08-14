@@ -1,5 +1,6 @@
 
 import 'dart:developer';
+import 'package:demo/common/theme/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -77,7 +78,7 @@ class _State extends State<ListChatScreen> {
             title: _isSearching
                 ? TextField(
                     decoration: const InputDecoration(
-                        border: InputBorder.none, hintText: 'Name, Email, ...'),
+                        border: InputBorder.none, hintText: 'Tên, Email, ...'),
                     autofocus: true,
                     style: const TextStyle(fontSize: 17, letterSpacing: 0.5),
                     //when search text changes then updated search list
@@ -115,6 +116,7 @@ class _State extends State<ListChatScreen> {
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: FloatingActionButton(
+              backgroundColor:AppTheme.blue1,
                 onPressed: () {
                   _addChatUserDialog();
                 },
@@ -210,8 +212,8 @@ class _State extends State<ListChatScreen> {
 
               //title
               title: Container(
-                child: Row(
-                  children: const [
+                child: const Row(
+                  children: [
                     Icon(
                       Icons.person_add,
                       color: Colors.blue,
@@ -227,7 +229,7 @@ class _State extends State<ListChatScreen> {
                 maxLines: null,
                 onChanged: (value) => email = value,
                 decoration: InputDecoration(
-                    hintText: 'Email Id',
+                    hintText: 'Email',
                     prefixIcon: const Icon(Icons.email, color: Colors.blue),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15))),
