@@ -133,32 +133,32 @@ bool showPassword = false;
                       keyboardType: TextInputType.text,
                       textCapitalization: TextCapitalization.characters),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 10, right: 10),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.end,
-                //     children: [
-                //       TextButton(
-                //           onPressed: () {
-                //             Navigator.push<void>(
-                //               context,
-                //               MaterialPageRoute<void>(
-                //                 builder: (BuildContext context) => BlocProvider(
-                //                   create: (context) => SignBloc(),
-                //                   child: const SignScreen(),
-                //                 ),
-                //               ),
-                //             );
-                //           },
-                //           child: const Text(
-                //             "Do not have an account?",
-                //             style: TextStyle(
-                //               decoration: TextDecoration.underline,
-                //             ),
-                //           ))
-                //     ],
-                //   ),
-                // ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push<void>(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) => BlocProvider(
+                                  create: (context) => SignBloc(),
+                                  child: const SignScreen(),
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Chưa có tài khoản?",
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Container(
